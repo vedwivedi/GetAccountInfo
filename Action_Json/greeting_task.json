@@ -1,0 +1,26 @@
+//------------------CASE-1---------*/
+{
+	"actions": [
+		{
+			"say": {
+				"speech": "This is Gretting taks test"
+			}
+		},
+		{
+			"remember": {}
+		}
+	]
+}
+//------------------CASE-2---------*
+{
+	"actions": [
+		{
+			"say": {
+				"speech": "This is Gretting taks test"
+			}
+		},
+		{
+			"remember": {"NP":"ABC"}
+		}
+	]
+}
