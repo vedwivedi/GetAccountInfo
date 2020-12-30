@@ -41,7 +41,8 @@ exports.greeting_task =async function(context, event, callback,RB) {
           TFN: clientData.phoneNumber,
           user_phone_number: clientData.PhoneNumberTo,
           //first namespace letter
-          F_Letter_Namespace:clientRespData.NameSpace.substring((clientRespData.NameSpace.length +1),clientRespData.NameSpace.length);
+          F_Letter_Namespace: "R"
+          //clientRespData.NameSpace.substring((clientRespData.NameSpace.length +1),clientRespData.NameSpace.length);
         };
   
         Remember.user_phone_number = clientData.user_phone_number;
@@ -130,8 +131,8 @@ exports.greeting_task =async function(context, event, callback,RB) {
     
     try {
       const requestObj = {
-        PhoneNumber: phoneNumber, // TFN
-        PhoneNumberTo: Remember.user_phone_number // UserNumber
+        PhoneNumber: Remember.user_phone_number, // UserNumber
+        PhoneNumberTo: phoneNumber // TFN
       };
   
       const responseObj = await axios.post(`${API_ENDPOINT}/TFN_LookUp`, requestObj);
