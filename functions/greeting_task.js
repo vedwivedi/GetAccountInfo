@@ -5,8 +5,8 @@ const API_ENDPOINT = 'https://pecodeviis:Test123!@pecodev.convergentusa.com/Conv
 exports.greeting_task =async function(context, event, callback,RB) {
     let Say;
     let Prompt;
-    let Listen = true;
-    let Collect = false;
+    let Listen = false;
+    let Collect = true;
     let Remember = {};
     let Tasks = false;
     let Redirect = false;
@@ -15,7 +15,8 @@ exports.greeting_task =async function(context, event, callback,RB) {
     // Getting the real caller ID
     let userPhoneNumber = event.UserIdentifier;
     // console.log(userPhoneNumber);
-    
+    if(userPhoneNumber === undefined)
+       userPhoneNumber="+14151234567";
     Remember.task_fail_counter = 0;
     Remember.repeat = false;
   
@@ -38,9 +39,35 @@ exports.greeting_task =async function(context, event, callback,RB) {
   
         Remember.user_phone_number = userPhoneNumber;
         Remember.clientData = clientData;
-        Say = `Thank you for calling ${clientData.clientName}.`;
+        Say = `Thank you for calling ${clientData.clientName}. `;
 
-        Redirect = 'task://getAccount';
+        Collect= {
+          "name": "collect_Accountnumber",
+          "questions": [
+                  {
+                  "question": "Please enter your Account Number or say. located in the  upper right corner of the letter or in the body of the SMS you received, starting with the first numerical digit.",
+                  "prefill": "NumberOfacct",
+                  "name": "NumberOfacct",
+                  
+                  
+                  "validate": {
+        
+        
+        
+        "max_attempts": {
+          "redirect": "task://agent_transfer",
+          "num_attempts": 3
+        }
+                  }
+                  }
+    
+                ],
+          "on_complete": {
+          "redirect": 	 "task://getAccount"
+                  }
+        };
+
+        
 
       } else {
         Say = `Thank you for calling. 
@@ -49,7 +76,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
         Listen = false;
   
         Remember.user_phone_number = userPhoneNumber;
-  
+        
         Redirect = 'task://agent_transfer';
       }
 

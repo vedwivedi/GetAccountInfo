@@ -16,7 +16,7 @@ CurrentTask: 'fallback',
 DialoguePayloadUrl:
 'https://autopilot.twilio.com/v1/Assistants/UAxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1/Dialogues/UKxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1',
 Memory: `{
-"AccountNo":"14296104"
+"AccountNo":"14296104",
 "PaymentAmt":800,
 "AgentTransfer":false,
 "InstallmentPayment":0,
@@ -40,6 +40,7 @@ Remember: `{
         "namespace": "RED",
         "channel": "SendGrid Email",
         "host": "FACS"
+    }
     }`,
 
 Field_yes_no_Value: 'No',

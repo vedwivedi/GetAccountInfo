@@ -2,7 +2,7 @@ const axios = require('axios');
 // This is your new function. To start, set the name and path on the left.
 const API_ENDPOINT = 'https://pecodeviis:Test123!@pecodev.convergentusa.com/Convergent_Main_IVR/Home';
 
-exports.getAccount =async function(context, event, callback,RB) {
+exports.getAccount_task =async function(context, event, callback,RB) {
     let Say;
     let Prompt;
     let Listen = true;
@@ -16,17 +16,19 @@ exports.getAccount =async function(context, event, callback,RB) {
     let userPhoneNumber = event.UserIdentifier;
     // console.log(userPhoneNumber);
     const Memory = JSON.parse(event.Memory);
-    
+    if(Memory.AccountNo === undefined)
+        Memory.AccountNo="14296104";
+    Remember=JSON.parse(event.Remember);
     Remember.task_fail_counter = 0;
     Remember.repeat = false;
-  
-    if ( userPhoneNumber ) {
+    console.log("fn getAccount task:");
+    if ( Memory.AccountNo ) {
       
         const reqData = {
           accountNumber: Memory.AccountNo,
-          namespace: clientData.namespace,
-          host: clientData.host,
-          callerPhoneNumber: userPhoneNumber
+          namespace: Remember.clientData.namespace,
+          host: Remember.clientData.host,
+          callerPhoneNumber: Remember.user_phone_number
         };
         
         const { success, userRespData } = await GetInboundAccountInfo(reqData);
@@ -41,41 +43,26 @@ exports.getAccount =async function(context, event, callback,RB) {
             userTotalBalance: +userRespData.TotalBalance
           };
   
-          Say = `Thank you for calling ${clientData.clientName}.
-                  Let me check your account using the phone number you are calling from. `;
-  
           Remember.userData = userData;
-  
+          Say=false;
           Listen = false;
           Redirect = "task://Account_Status";
+
         } else {
-          Collect = {
-            "name": "collect_phone_num",
-            "questions": [
-              {
-                "question": `Thank you for calling ${clientData.clientName}. 
-                              We are not able to find your account using the phone number you are calling from. 
-                              Please tell me the phone number associated with your account.`,
-                "voice_digits": {
-                  "finish_on_key": "#"
-                },
-                "name": "phone_num",
-                "type": "Twilio.PHONE_NUMBER"
-              }
-            ],
-            "on_complete": {
-              "redirect": "task://phone_check"
-            }
-          };
-          // Say = `Thank you for calling ${clientData.clientName}.
-          //         We are not able to find your account using the phone number you are calling from. `;
-          // Prompt = `Please tell me the phone number associated with your account.`;
+          Say=`You have entered ${Memory.AccountNo} is not correct.`;
+          Redirect = "task://getAccount";
   
-          Say = false;
           Listen = false;
         }
   
       } 
+      else
+      {
+        Say=`You dit't enter.`;
+          Redirect = "task://getAccount";
+  
+          Listen = false;
+      }
     
     RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
   };
