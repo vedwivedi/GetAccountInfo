@@ -55,7 +55,8 @@ exports.greeting_task =async function(context, event, callback,RB) {
 
       RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
 
-  
+    }
+  };
   const TFN_Lookup = async ( phoneNumber ) => {
     let clientRespData;
     let success;
@@ -79,5 +80,5 @@ exports.greeting_task =async function(context, event, callback,RB) {
   };
   
    
-    }
-  };
+    
+ 

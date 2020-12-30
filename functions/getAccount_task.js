@@ -47,7 +47,7 @@ exports.getAccount =async function(context, event, callback,RB) {
           Remember.userData = userData;
   
           Listen = false;
-          Redirect = "task://phone_check";
+          Redirect = "task://Account_Status";
         } else {
           Collect = {
             "name": "collect_phone_num",
@@ -75,69 +75,11 @@ exports.getAccount =async function(context, event, callback,RB) {
           Listen = false;
         }
   
-      } else {
-        Say = `Thank you for calling. 
-                There was a problem with the call. `;
-  
-        Listen = false;
-  
-        Remember.user_phone_number = userPhoneNumber;
-  
-        Redirect = 'task://agent_transfer';
-      }
-  
-    } else {
-      Collect = {
-        "name": "collect_phone_num",
-        "questions": [
-          {
-            "question": `Thank you for calling. 
-                          Let me check your account using your phone number. 
-                          Please tell me the phone number associated with your account.`,
-            "voice_digits": {
-              "finish_on_key": "#"
-            },
-            "name": "phone_num",
-            "type": "Twilio.PHONE_NUMBER"
-          }
-        ],
-        "on_complete": {
-          "redirect": "task://phone_check"
-        }
-      };
-      // Say = `Thank you for calling. 
-              // Let me check your account using your phone number. `;
-      // Prompt = `Please tell me the phone number associated with your account.`;
-  
-      Say = false;
-      Listen = false;
-    }
-  
+      } 
+    
     RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
   };
-  
-  const TFN_Lookup = async ( phoneNumber ) => {
-    let clientRespData;
-    let success;
-    
-    try {
-      const requestObj = {
-        PhoneNumber: '8559092691',
-        PhoneNumberTo: phoneNumber
-      };
-  
-      const responseObj = await axios.post(`${API_ENDPOINT}/TFN_LookUp`, requestObj);
-      clientRespData = responseObj.data;
-      success = clientRespData.status === 'ok' ? true : false;
-      
-    } catch ( error ) {
-      console.error( error.response );
-      success = false;
-    }
-  
-    return { success, clientRespData };
-  };
-  
+   
   const GetInboundAccountInfo = async ( reqData ) => {
     let userRespData;
     let success;
