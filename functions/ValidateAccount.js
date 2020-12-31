@@ -2,24 +2,27 @@ const axios = require('axios');
 // This is your new function. To start, set the name and path on the left.
 const API_ENDPOINT = 'https://pecodeviis:Test123!@pecodev.convergentusa.com/Convergent_Main_IVR/Home';
 
-exports.getAccount_task =async function(context, event, callback,RB) {
-    let Say;
-    let Prompt;
-    let Listen = true;
-    let Collect = false;
-    let Remember = {};
-    let Tasks = false;
-    let Redirect = false;
-    let Handoff = false;
+exports.handler =async function(context, event, callback) {
+    // let Say;
+    // let Prompt;
+    // let Listen = true;
+    // let Collect = false;
+     let Remember = {};
+    // let Tasks = false;
+    // let Redirect = false;
+    // let Handoff = false;
   
     // Getting the real caller ID
-    let userPhoneNumber = event.UserIdentifier;
-    // console.log(userPhoneNumber);
-    const Memory = JSON.parse(event.Memory);
-    let AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
+    let validAnswer = false;
+    // let userPhoneNumber = event.UserIdentifier;
+    
+    // console.log("ValidAccount");
+     const Memory = JSON.parse(event.Memory);
+    let AccountNo = event.ValidateFieldAnswer; //Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
+    console.log("AccountNo:" +AccountNo);
     Remember.user_phone_number = Memory.user_phone_number;
     Remember.clientData = Memory.clientData;
-    console.log("AccountNo:" +AccountNo);
+    
     
     if(AccountNo === undefined)
         Memory.AccountNo="14296104";
@@ -47,28 +50,35 @@ exports.getAccount_task =async function(context, event, callback,RB) {
           };
   
           Remember.userData = userData;
-          Say=false;
-          Listen = false;
-          Redirect = "task://Account_Status";
+        //   Say=false;
+           validAnswer = true;
+        //   Listen = false;
+        //   Redirect = "task://Account_Status";
 
         } else {
-          Say = `You have entered ${AccountNo} is not correct.`;
-          Redirect = "task://getAccount";
-          Collect = false;
-          Listen = false;
+            validAnswer = false;
+        //   Say = `You have entered ${AccountNo} is not correct.`;
+        //   Redirect = "task://getAccount";
+        //   Collect = false;
+        //   Listen = false;
           
         }
   
       } 
       else
       {
-        Say=`You dit't enter.`;
-          Redirect = "task://getAccount";
+        validAnswer = false;
+        // Say=`You dit't enter.`;
+        //   Redirect = "task://getAccount";
   
-          Listen = false;
+        //   Listen = false;
       }
+    let responseObject = {
+        valid: validAnswer
+    }
     
-    RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
+    //RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
+    callback(null,responseObject)
   };
    
   const GetInboundAccountInfo = async ( reqData ) => {
