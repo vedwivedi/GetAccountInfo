@@ -19,6 +19,7 @@ exports.handler =async function(context, event, callback) {
     // console.log("ValidAccount");
      const Memory = JSON.parse(event.Memory);
     let AccountNo = event.ValidateFieldAnswer; //Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
+    let AccStatus = false;
     console.log("AccountNo:" +AccountNo);
     Remember.user_phone_number = Memory.user_phone_number;
     Remember.clientData = Memory.clientData;
@@ -48,15 +49,26 @@ exports.handler =async function(context, event, callback) {
             accountStatus: userRespData.AccStatus === '1' ? true : false,
             userTotalBalance: +userRespData.TotalBalance
           };
-  
+          AccStatus = userRespData.AccStatus;
           Remember.userData = userData;
         //   Say=false;
-           validAnswer = true;
+          console.log("AccStatus"+ AccStatus);
+           Say = true;
+           if( AccStatus ) 
+           { 
+              validAnswer = true;
+           }
+           else
+           {
+              validAnswer = false;
+           }
+         
         //   Listen = false;
         //   Redirect = "task://Account_Status";
 
         } else {
             validAnswer = false;
+            AccStatus = false;
         //   Say = `You have entered ${AccountNo} is not correct.`;
         //   Redirect = "task://getAccount";
         //   Collect = false;
@@ -68,15 +80,38 @@ exports.handler =async function(context, event, callback) {
       else
       {
         validAnswer = false;
+        AccStatus = false;
         // Say=`You dit't enter.`;
         //   Redirect = "task://getAccount";
   
         //   Listen = false;
       }
+      Remember.AccStatus = AccStatus;
+      //if ( Remember ) {
+        // responseObject.actions.push(
+        //     {
+        //         "remember" : Remember
+        //     }
+        // );
+    //}
+    // let responseObject = {
+    //   "actions": [
+                  
+    //            ]
+    //  };
     let responseObject = {
-        valid: validAnswer
+        valid: validAnswer,
+        accountStatus: AccStatus,
+        
     }
     
+  //   if ( Redirect ) {
+  //     responseObject.actions.push(
+  //         {
+  //             "redirect" : Redirect
+  //         }
+  //     );
+  // }
     //RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
     callback(null,responseObject)
   };

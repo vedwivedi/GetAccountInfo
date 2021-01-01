@@ -135,7 +135,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
     
                 ],
           "on_complete": {
-          "redirect": 	 "task://Account_Status"
+          "redirect": 	 "task://getAccount"
                   }
         };
         
