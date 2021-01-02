@@ -13,7 +13,7 @@ exports.check_name_task =async function(context, event, callback,RB) {
     let Handoff = false;
 
     const Memory = JSON.parse(event.Memory);
-    let user_ZiporSSN = Memory.userData.userSsnLastFour;
+    let name_check = Memory.userData.userName;
     //event.ValidateFieldAnswer;
      
         // Collect= {
@@ -61,56 +61,47 @@ exports.check_name_task =async function(context, event, callback,RB) {
         //           }
         // };
 
-        Collect =  {
-            "name": "collect_ziporssn",
+        Collect=  {
+            "name": "collect_name_check",
             "questions": [
-                    {
-                    "question": `Please enter your ZIP or SSN Number or say.`,
-                    //"prefill": "NumberOfacct",
-                    "name": "collect_ziporssn",
-                    "voice_digits": {
-                      "num_digits": 10,
-                      "finish_on_key": "#"
-                      
-                    },
-                    
+                {
+                    "question": `if your name is  ${name_check}. say yes or press 1 or say no or press 2.`,
+                    "name": "collect_name_check",
+                    //"type": "Twilio.CITY",
                     "validate": {
-                      "on_failure": {
-                        "messages": [
-                          {
-                            "say": "Sorry, that's not a valid  ."
-                          },
-                          {
-                            "say": "Hmm, I'm not understanding. "
-                          }
-                        ],
-                        "repeat_question": true
-                      },
-                      "webhook": {
-                        "url": "https://getaccountinfo-8115-dev.twil.io/validateziporssn",
-                        "method": "POST"
-                      },
-                      "on_success": {
-                        "say": "Great, we've got "
-                      },
-                      "max_attempts": {
-                        "redirect": "task://agent_transfer",
-                        "num_attempts": 3
-                      }
+                        "allowed_values": {
+                            "list": [
+                                "Yes",
+                                "No"
+                            ]
+                        },
+                        "on_failure": {
+                            "messages": [
+                                {
+                                    "say": "Sorry, that's not a valid "
+                                },
+                                {
+                                    "say": "Hmm, I'm not understanding."
+                                }
+                            ],
+                            "repeat_question": true
+                        },
+                        "on_success": {
+                            "say": "Great, we've got."
+                        },
+                        "max_attempts": {
+                            "redirect": "task://agent_transfer",
+                            "num_attempts": 3
+                        }
                     }
-                    }
-      
-                  ],
+                }
+                
+            ],
             "on_complete": {
-            "redirect": 	 "task://check_name_task"
-                    }
-          };
-        
-        
-      
-
+                "redirect": "task://ZipOrSSN_Taks"
+            }
+        };
     
-
     RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
   };
   const TFN_Lookup = async ( phoneNumber,TFN ) => {
