@@ -2,7 +2,7 @@ const axios = require('axios');
 // This is your new function. To start, set the name and path on the left.
 const API_ENDPOINT = 'https://pecodeviis:Test123!@pecodev.convergentusa.com/Convergent_Main_IVR/Home';
 
-exports.check_name_task =async function(context, event, callback,RB) {
+exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
     let Say;
     let Prompt;
     let Listen = false;
@@ -11,9 +11,7 @@ exports.check_name_task =async function(context, event, callback,RB) {
     let Tasks = false;
     let Redirect = false;
     let Handoff = false;
-
-    const Memory = JSON.parse(event.Memory);
-    let user_ZiporSSN = Memory.userData.userSsnLastFour;
+    console.log("inner function ZipOrSSN_Taks");
     //event.ValidateFieldAnswer;
      
         // Collect= {
@@ -67,7 +65,7 @@ exports.check_name_task =async function(context, event, callback,RB) {
                     {
                     "question": `Please enter your ZIP or SSN Number or say.`,
                     //"prefill": "NumberOfacct",
-                    "name": "collect_ziporssn",
+                    "name": "ziporssn",
                     "voice_digits": {
                       "num_digits": 10,
                       "finish_on_key": "#"
@@ -102,69 +100,14 @@ exports.check_name_task =async function(context, event, callback,RB) {
       
                   ],
             "on_complete": {
-            "redirect": 	 "task://check_name_task"
+            "redirect": 	 "task://set_MM"
                     }
           };
         
-        
-      
-
-    
 
     RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
   };
-  const TFN_Lookup = async ( phoneNumber,TFN ) => {
-    let clientRespData;
-    let success;
-    
-    try {
-      const requestObj = {
-        PhoneNumber: TFN,
-        PhoneNumberTo: phoneNumber
-      };
+ 
   
-      const responseObj = await axios.post(`${API_ENDPOINT}/TFN_LookUp`, requestObj);
-      clientRespData = responseObj.data;
-      success = clientRespData.status === 'ok' ? true : false;
-      
-    } catch ( error ) {
-      console.error( error.response );
-      success = false;
-    }
-  
-    return { success, clientRespData };
-  };
-  
-  const GetInboundAccountInfo = async ( reqData ) => {
-    let userRespData;
-    let success;
-    
-    try {
-      const requestObj = {
-        'AccountNo': reqData.callerPhoneNumber,  // A/C number the caller entered. Or the caller’s phone number
-        'NameSpace':reqData.namespace,  // coming from the result of TFN_LookUp
-        'AccountType': 'P', // hard coded 
-        'NameType': 'P',  // hard coded
-        'SeedFlag': '1',  // hard coded
-        'Host': reqData.host, // coming from the result of TFN_LookUp
-        'PhoneNumber': reqData.TFN, // caller’s phone number
-        'PhoneNumberTo': reqData.callerPhoneNumber, // the phone number they are calling to
-        'IVRUsed':'MainIVR'
-      };
-  
-      const responseObj = await axios.post(`${API_ENDPOINT}/GetInboundAccountInfo`, requestObj);
-      userRespData = responseObj.data;
-  
-      success = userRespData.Status === 'OK' ? true : false;
-      
-    } catch ( error ) {
-      console.error( error.response );
-      success = false;
-    }
-  
-    return { success, userRespData };
-
-  };
-   
     
  

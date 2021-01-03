@@ -3,6 +3,9 @@ const greetingTaskHandler = require(functions['greeting_task'].path);
 const getAccountTaskHandler = require(functions['getAccount_task'].path);
 const FallbackTaskHandler = require(functions['fallback_task'].path);
 const responseBuilder = require(functions['response_builder'].path);
+const check_name_TaskHandler = require(functions['check_name_task'].path);
+const ZipOrSSN_TaksHandler = require(functions['ZipOrSSN_Taks'].path);
+
 exports.handler = async (context, event, callback) => {
 
   const { CurrentTask } = event;
@@ -14,10 +17,16 @@ exports.handler = async (context, event, callback) => {
       break;
 
     case 'getAccount':
-      console.log("getAccount task:");
         await getAccountTaskHandler.getAccount_task(context, event, callback,responseBuilder.RB);
         break;
-
+    case 'check_name_task':
+          console.log("check_name_task:");
+            await check_name_TaskHandler.check_name_task(context, event, callback,responseBuilder.RB);
+            break;
+    case 'ZipOrSSN_Taks':
+          console.log("ZipOrSSN_Taks:");
+            await ZipOrSSN_TaksHandler.ZipOrSSN_Task(context, event, callback,responseBuilder.RB);
+            break;
     case 'fallback':
       await FallbackTaskHandler.fallback_task(context, event, callback,responseBuilder.RB);
       break;

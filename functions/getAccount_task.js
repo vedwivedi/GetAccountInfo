@@ -49,7 +49,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
           Remember.userData = userData;
           Say=false;
           Listen = false;
-          Redirect = "task://Account_Status";
+          Redirect = "task://check_name_task";
 
         } else {
           Say = `You have entered ${AccountNo} is not correct.`;
