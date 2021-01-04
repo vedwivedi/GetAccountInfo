@@ -13,12 +13,17 @@ exports.greeting_task =async function(context, event, callback,RB) {
     let Handoff = false;
 
     const Memory = JSON.parse(event.Memory);
+
+    //let testtfn = Memory.twilio.voice.To;
+    let testusernumber = Memory.twilio.voice.From;
     
+    console.log("testusernumber:" +testusernumber)
+
     let userPhoneNumber = event.UserIdentifier;
-    //if(userPhoneNumber === undefined)
+    if(userPhoneNumber === undefined)
         userPhoneNumber="+14151234567";
     
-    let TFN = event.UserIdentifier;
+    let TFN = Memory.twilio.voice.To;
     let bTFn_success = false;
     if(TFN === undefined)
     {
@@ -28,6 +33,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
     }
     else
     {
+      console.log("TFN:" +TFN);
       TFN = '8559092691';
       Remember.TFN = '8559092691';
       Remember.user_phone_number = userPhoneNumber;
@@ -70,7 +76,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
      // userPhoneNumber = userPhoneNumber.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
   
      const reqData = {
-      accountNumber: Memory.AccountNo,
+      accountNumber: '14296104',//Memory.AccountNo,
       namespace: Remember.clientData.namespace,
       host: Remember.clientData.host,
       callerPhoneNumber: Remember.user_phone_number,
