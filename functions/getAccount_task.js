@@ -16,9 +16,23 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     let userPhoneNumber = event.UserIdentifier;
     // console.log(userPhoneNumber);
     const Memory = JSON.parse(event.Memory);
-    let AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
+    let AccountNo = "";
     Remember.user_phone_number = Memory.user_phone_number;
     Remember.clientData = Memory.clientData;
+    let ReAccountNo = null;
+    try{
+     ReAccountNo = Memory.twilio.collected_data.collect_NameNotMatch.answers.NameNotMatch.answer;
+    }
+    catch
+    {ReAccountNo = null}
+    if(ReAccountNo === null)
+    {
+       AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
+    }
+    else
+    {
+      AccountNo = ReAccountNo;
+    }
     console.log("AccountNo:" +AccountNo);
     
     if(AccountNo === undefined)
@@ -45,7 +59,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
             accountStatus: userRespData.AccStatus === '1' ? true : false,
             userTotalBalance: +userRespData.TotalBalance
           };
-  
+
           Remember.userData = userData;
           Say=false;
           Listen = false;
@@ -62,10 +76,55 @@ exports.getAccount_task =async function(context, event, callback,RB) {
       } 
       else
       {
-        Say=`You dit't enter.`;
-          Redirect = "task://getAccount";
+        //Say=`You dit't enter.`;
+          //Redirect = "task://getAccount";
   
-          Listen = false;
+          //Listen = false;
+
+        Collect =  {
+            "name": "collect_Accountnumber",
+            "questions": [
+                    {
+                    "question": `Please enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located in the upper right corner of the letter or in the body of the SMS you received. Enter the numerical digits after the letter ${Remember.clientData.F_Letter_Namespace}.`,
+                    //"prefill": "NumberOfacct",
+                    "name": "NumberOfacct",
+                    "voice_digits": {
+                      "num_digits": 20,
+                      "finish_on_key": "#"
+                      
+                    },
+                    
+                    "validate": {
+                      "on_failure": {
+                        "messages": [
+                          {
+                            "say": "Sorry, that's not a valid account .",
+                          },
+                          {
+                            "say": "Hmm, I'm not understanding. ",
+                          }
+                        ],
+                        "repeat_question": true
+                      },
+                      "webhook": {
+                        "url": "https://getaccountinfo-8115-dev.twil.io/ValidateAccount",
+                        "method": "POST"
+                      },
+                      "on_success": {
+                        "say": "Great, we've got your account details"
+                      },
+                      "max_attempts": {
+                        "redirect": "task://agent_transfer",
+                        "num_attempts": 3
+                      }
+                    }
+                    }
+      
+                  ],
+            "on_complete": {
+            "redirect": 	 "task://getAccount"
+                    }
+          };
       }
     
     RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);

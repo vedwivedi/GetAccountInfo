@@ -15,15 +15,12 @@ exports.greeting_task =async function(context, event, callback,RB) {
     const Memory = JSON.parse(event.Memory);
 
     //let testtfn = Memory.twilio.voice.To;
-    let testusernumber = Memory.twilio.voice.From;
+   // let testusernumber = Memory.twilio.voice.From;
     
-    console.log("testusernumber:" +testusernumber)
-
+   
     let userPhoneNumber = event.UserIdentifier;
-    if(userPhoneNumber === undefined)
-        userPhoneNumber="+14151234567";
-    
-    let TFN = Memory.twilio.voice.To;
+    let TFN = "";
+  
     let bTFn_success = false;
     if(TFN === undefined)
     {
@@ -33,8 +30,9 @@ exports.greeting_task =async function(context, event, callback,RB) {
     }
     else
     {
-      console.log("TFN:" +TFN);
       TFN = '8559092691';
+         //userPhoneNumber = "+14151234567";
+        userPhoneNumber = "+17044880416";
       Remember.TFN = '8559092691';
       Remember.user_phone_number = userPhoneNumber;
       userPhoneNumber = userPhoneNumber.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
@@ -57,8 +55,11 @@ exports.greeting_task =async function(context, event, callback,RB) {
           F_Letter_Namespace: "R"
           //clientRespData.NameSpace.substring((clientRespData.NameSpace.length +1),clientRespData.NameSpace.length);
         };
+        Say = true;
+        Say = `Thank you for calling. ${clientRespData.ClientName} `;
         Remember.user_phone_number=clientRespData.PhoneNumberTo;
         Remember.clientData = clientData;
+        
       }
       else
       {
@@ -70,13 +71,14 @@ exports.greeting_task =async function(context, event, callback,RB) {
       }
     }
 
+   // 
   /// GetAccountInfo throufh user phone
     if ( Remember.user_phone_number && bTFn_success ) {
 
      // userPhoneNumber = userPhoneNumber.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
   
      const reqData = {
-      accountNumber: '14296104',//Memory.AccountNo,
+      accountNumber: userPhoneNumber,
       namespace: Remember.clientData.namespace,
       host: Remember.clientData.host,
       callerPhoneNumber: Remember.user_phone_number,
@@ -94,17 +96,21 @@ exports.greeting_task =async function(context, event, callback,RB) {
           accountStatus: userRespData.AccStatus === '1' ? true : false,
           userTotalBalance: +userRespData.TotalBalance
         };
+        console.log("Get success");
 
         Remember.userData = userData;
         
-  
+        Redirect = true;
+        Collect = false;
+        Redirect = "task://check_name_task" ;
+        
       } else {
         
         Collect= {
           "name": "collect_Accountnumber",
           "questions": [
                   {
-                  "question": `Please enter your Account Number or say. your first digit is ${Remember.clientData.F_Letter_Namespace}. located in the  upper right corner of the letter or in the body of the SMS you received, starting with the first numerical digit.`,
+                  "question": `We could not find your account based on the phone number you are calling from. Please enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located in the upper right corner of the letter or in the body of the SMS you received. Enter the numerical digits after the letter ${Remember.clientData.F_Letter_Namespace}.`,
                   //"prefill": "NumberOfacct",
                   "name": "NumberOfacct",
                   "voice_digits": {
@@ -117,10 +123,10 @@ exports.greeting_task =async function(context, event, callback,RB) {
                     "on_failure": {
                       "messages": [
                         {
-                          "say": "Sorry, that's not a valid account ."
+                          "say": "Sorry, that's not a valid account .",
                         },
                         {
-                          "say": "Hmm, I'm not understanding. "
+                          "say": "Hmm, I'm not understanding. ",
                         }
                       ],
                       "repeat_question": true

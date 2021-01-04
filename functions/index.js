@@ -4,7 +4,8 @@ const getAccountTaskHandler = require(functions['getAccount_task'].path);
 const FallbackTaskHandler = require(functions['fallback_task'].path);
 const responseBuilder = require(functions['response_builder'].path);
 const check_name_TaskHandler = require(functions['check_name_task'].path);
-const ZipOrSSN_TaksHandler = require(functions['ZipOrSSN_Taks'].path);
+const ZipOrSSN_TaksHandler = require(functions['ZipOrSSN_Taks'].path);  
+const NameNotMatchTaksHandler = require(functions['NameNotMatch'].path); 
 
 exports.handler = async (context, event, callback) => {
 
@@ -26,6 +27,10 @@ exports.handler = async (context, event, callback) => {
     case 'ZipOrSSN_Taks':
           console.log("ZipOrSSN_Taks:");
             await ZipOrSSN_TaksHandler.ZipOrSSN_Task(context, event, callback,responseBuilder.RB);
+            break;
+    case 'NameNotMatch':
+          console.log("NameNotMatch:");
+            await NameNotMatchTaksHandler.NameNotMatch(context, event, callback,responseBuilder.RB);
             break;
     case 'fallback':
       await FallbackTaskHandler.fallback_task(context, event, callback,responseBuilder.RB);

@@ -14,54 +14,23 @@ exports.check_name_task =async function(context, event, callback,RB) {
 
     const Memory = JSON.parse(event.Memory);
     let name_check = Memory.userData.userName;
-    console.log("name:");
-    //event.ValidateFieldAnswer;
-     
-        // Collect= {
-        //   "name": "collect_name_check",
-        //   "questions": [
-        //           {
-        //           "question": `if your name is  ${name_check}. say yes or press 1 or say no or press 2.`,
-        //           "prefill": "collect_name_check",
-        //           "name": "collect_name_check",
-        //           "voice_digits": {
-        //             "num_digits": 5,
-        //             "finish_on_key": "#"
-                    
-        //           },
-                  
-        //           "validate": {
-        //             "on_failure": {
-        //               "messages": [
-        //                 {
-        //                   "say": "Sorry, that's not a valid ."
-        //                 },
-        //                 {
-        //                   "say": "Hmm, I'm not understanding. "
-        //                 }
-        //               ],
-        //               "repeat_question": true
-        //             },
-        //             // "webhook": {
-        //             //   "url": "https://getaccountinfo-8115-dev.twil.io/ValidateAccount",
-        //             //   "method": "POST"
-        //             // },
-        //             "on_success": {
-        //               "say": "Great, we've got your  details"
-        //             },
-        //             "max_attempts": {
-        //               "redirect": "task://agent_transfer",
-        //               "num_attempts": 3
-        //             }
-        //           }
-        //           }
+    //let abc = Memory.twilio.collected_data.collect_comments.answers.answers;
+    // let enterdigit = abc;// event.ValidateFieldAnswer;
+    // console.log("enterdigit:" +enterdigit);
     
-        //         ],
-        //   "on_complete": {
-        //   "redirect": 	 "task://ZipOrSSN_Taks"
-        //           }
-        // };
-
+    // if(enterdigit === 2 ||  enterdigit=== 'no' || enterdigit=== 'No')
+    // {
+    //   Remember.userData.accountNumber = null;
+    //   console.log("check : "+enterdigit);
+    //   Redirect = true;
+    //   Redirect = "task://getAccount" ;
+    // }
+    // else if(enterdigit === 1 ||  enterdigit=== 'yes' || enterdigit=== 'Yes')
+    // {
+    //   Redirect = true;
+    //   Redirect = "task://ZipOrSSN_Taks" ;
+    // }
+    // else{
         Collect =  {
           "name": "collect_comments",
           "questions": [
@@ -72,7 +41,9 @@ exports.check_name_task =async function(context, event, callback,RB) {
                 "allowed_values": {
                   "list": [
                     "Yes",
-                    "1"
+                    "1",
+                    "No",
+                    "2"
                   ]
                 },
                 "on_failure": {
@@ -88,7 +59,7 @@ exports.check_name_task =async function(context, event, callback,RB) {
                 },
                 "max_attempts": {
                   "redirect": "task://agent_transfer",
-                  "num_attempts": 0
+                  "num_attempts": 3
                 }
               }
             }
@@ -97,6 +68,7 @@ exports.check_name_task =async function(context, event, callback,RB) {
             "redirect": "task://ZipOrSSN_Taks"
           }
         };
+      //}
     
     RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
   };
