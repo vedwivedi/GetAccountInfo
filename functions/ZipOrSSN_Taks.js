@@ -63,7 +63,7 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
             "name": "collect_ziporssn",
             "questions": [
                     {
-                    "question": `Please enter your ZIP or SSN Number or say.`,
+                    "question": "For your account verification   input 5 digits or Say of your  Zip code or last 4 digits of your Social Security number.",
                     //"prefill": "NumberOfacct",
                     "name": "ziporssn",
                     "voice_digits": {
@@ -89,7 +89,7 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
                         "method": "POST"
                       },
                       "on_success": {
-                        "say": "Great, we've got "
+                        "say": "Thank you for validating your account"
                       },
                       "max_attempts": {
                         "redirect": "task://agent_transfer",
