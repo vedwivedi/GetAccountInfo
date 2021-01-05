@@ -19,6 +19,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
     
    
     let userPhoneNumber = event.UserIdentifier;
+    Remember.AccountFrom = "-1";
     let TFN = "";
   
     let bTFn_success = false;
@@ -32,7 +33,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
     {
       TFN = '8559092691';
          userPhoneNumber = "+14151234567";
-        //userPhoneNumber = "+17044880416";
+       // userPhoneNumber = "+17044880416";
       Remember.TFN = '8559092691';
       Remember.user_phone_number = userPhoneNumber;
       userPhoneNumber = userPhoneNumber.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
@@ -96,6 +97,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
           userTotalBalance: +userRespData.TotalBalance
         };
         console.log("Get success");
+        Remember.AccountFrom = "Phone";
 
         Remember.userData = userData;
         

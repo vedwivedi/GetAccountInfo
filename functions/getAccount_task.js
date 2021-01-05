@@ -5,7 +5,7 @@ const API_ENDPOINT = 'https://pecodeviis:Test123!@pecodev.convergentusa.com/Conv
 exports.getAccount_task =async function(context, event, callback,RB) {
     let Say;
     let Prompt;
-    let Listen = true;
+    let Listen = false;
     let Collect = false;
     let Remember = {};
     let Tasks = false;
@@ -16,29 +16,33 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     let userPhoneNumber = event.UserIdentifier;
     // console.log(userPhoneNumber);
     const Memory = JSON.parse(event.Memory);
-    let AccountNo = "";
+    let AccountNo = false;
     Remember.user_phone_number = Memory.user_phone_number;
     Remember.clientData = Memory.clientData;
+    Remember.AccountFrom = "-1";
     let ReAccountNo = null;
     try{
-     ReAccountNo = Memory.twilio.collected_data.collect_NameNotMatch.answers.NameNotMatch.answer;
+      AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
+    
     }
     catch
-    {ReAccountNo = null}
-    if(ReAccountNo === null)
     {
-       AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
-       //AccountNo = AccountNo.slice(1);
+      AccountNo = null
     }
-    else
-    {
-      AccountNo = ReAccountNo;
-      //AccountNo = ReAccountNo.slice(1);
-    }
+    // if(ReAccountNo === null)
+    // {
+    //   // AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
+    //    //AccountNo = AccountNo.slice(1);
+    // }
+    // else
+    // {
+    //   AccountNo = ReAccountNo;
+    //   //AccountNo = ReAccountNo.slice(1);
+    // }
     console.log("AccountNo:" +AccountNo);
     
-    if(AccountNo === undefined)
-        Memory.AccountNo="14296104";
+    // if(AccountNo === undefined)
+    //     Memory.AccountNo="14296104";
    
     if ( AccountNo ) {
       console.log("ifAccountNo:"+ AccountNo);
@@ -62,8 +66,10 @@ exports.getAccount_task =async function(context, event, callback,RB) {
             userTotalBalance: +userRespData.TotalBalance
           };
           Remember.userData = userData;
+          Remember.AccountFrom = 'Manual';
           Say=false;
           Listen = false;
+          Redirect = true;
           Redirect = "task://check_name_task";
         }
           
@@ -74,14 +80,16 @@ exports.getAccount_task =async function(context, event, callback,RB) {
           //Redirect = "task://getAccount";
   
           //Listen = false;
+          Collect  = true;
 
         Collect =  {
             "name": "collect_Accountnumber",
             "questions": [
                     {
                     "question": `Please enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located in the upper right corner of the letter or in the body of the SMS you received. Enter the numerical digits after the letter ${Remember.clientData.F_Letter_Namespace}.`,
-                    //"prefill": "NumberOfacct",
+                    "prefill": "NumberOfacct",
                     "name": "NumberOfacct",
+                   "type": "Twilio.NUMBER",
                     "voice_digits": {
                       "num_digits": 20,
                       "finish_on_key": "#"
@@ -109,7 +117,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
                       },
                       "max_attempts": {
                         "redirect": "task://agent_transfer",
-                        "num_attempts": 3
+                        "num_attempts": 1
                       }
                     }
                     }

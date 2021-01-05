@@ -9,42 +9,23 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
     let Collect = true;
     let Remember = {};
     let Tasks = false;
-    let Redirect = true;
+    let Redirect = false;
     let Handoff = false;
     
     const Memory = JSON.parse(event.Memory);
-  //    console.log("Memory:");
-    let enterdigit = Memory.twilio.collected_data.collect_comments.answers.comments.answer;
-  //   let AccStatus = false;
-   
-     //let enterdigit = event.ValidateFieldAnswer;
-     console.log("enterdigit:" +enterdigit);
-     if(enterdigit == 2 ||  enterdigit == 'no' || enterdigit == 'No')
-     {
-      //   Remember.collected_data.collect_Accountnumber.answers.NumberOfacct.answer = null
-      //  console.log("check : "+enterdigit);
-      //  console.log("Remembercheck : "+ Remember.userData);
-       Say = false;
-       Listen = false;
-       Collect = false;
-       Redirect = true;
-       Redirect = "task://NameNotMatch" ;
-     }
-     else
-      {
-        Say = false;
-        Listen = false;
-        Collect = true;
-        Redirect = false;
+  
+     
         
         console.log("inner function ZipOrSSN_Taks");
+        
         Collect =  {
             "name": "collect_ziporssn",
             "questions": [
                     {
                     "question": "For your account verification   input 5 digits or Say of your  Zip code or last 4 digits of your Social Security number.",
-                    //"prefill": "NumberOfacct",
+                    "prefill": "ziporssn",
                     "name": "ziporssn",
+                    "type": "Twilio.NUMBER_SEQUENCE",
                     "voice_digits": {
                       "num_digits": 10,
                       "finish_on_key": "#"
@@ -83,8 +64,7 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
                     }
           };
         
-      }
-      console.log(Collect);
+      
 
     RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
   };
