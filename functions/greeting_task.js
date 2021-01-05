@@ -31,8 +31,8 @@ exports.greeting_task =async function(context, event, callback,RB) {
     else
     {
       TFN = '8559092691';
-         //userPhoneNumber = "+14151234567";
-        userPhoneNumber = "+17044880416";
+         userPhoneNumber = "+14151234567";
+        //userPhoneNumber = "+17044880416";
       Remember.TFN = '8559092691';
       Remember.user_phone_number = userPhoneNumber;
       userPhoneNumber = userPhoneNumber.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
@@ -51,9 +51,8 @@ exports.greeting_task =async function(context, event, callback,RB) {
           host: clientRespData.Host,
           TFN: clientRespData.PhoneNumber,
           user_phone_number: clientRespData.PhoneNumberTo,
-          //first namespace letter
-          F_Letter_Namespace: "R"
-          //clientRespData.NameSpace.substring((clientRespData.NameSpace.length +1),clientRespData.NameSpace.length);
+          F_Letter_Namespace: (clientRespData.NameSpace.charAt(0))
+          //F_Letter_Namespace:  clientRespData.NameSpace.substring((clientRespData.NameSpace.length -1),clientRespData.NameSpace.length)
         };
         Say = true;
         Say = `Thank you for calling. ${clientRespData.ClientName} `;

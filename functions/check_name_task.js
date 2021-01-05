@@ -49,13 +49,13 @@ exports.check_name_task =async function(context, event, callback,RB) {
                 "on_failure": {
                   "messages": [
                     {
-                      "say": ""
+                      "say": "you have wrog input try again."
                     }
                   ],
-                  "repeat_question": false
+                  "repeat_question": true
                 },
                 "on_success": {
-                  "say": ""
+                  "say": "Thank you for confirmation."
                 },
                 "max_attempts": {
                   "redirect": "task://agent_transfer",

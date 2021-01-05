@@ -40,7 +40,7 @@ exports.handler =async function(context, event, callback) {
         const { success, userRespData } = await GetInboundAccountInfo(reqData);
   
         if ( success ) {
-          console.log("successAccountNo:"+ AccountNo);
+          console.log("validationsuccessAccountNo:"+ AccountNo);
           const userData = {
             userName: userRespData.FullName,
             userZip: userRespData.ZipCd,
@@ -49,19 +49,22 @@ exports.handler =async function(context, event, callback) {
             accountStatus: userRespData.AccStatus === '1' ? true : false,
             userTotalBalance: +userRespData.TotalBalance
           };
-          AccStatus = userRespData.AccStatus;
+          AccStatus = userData.accountStatus;
           Remember.userData = userData;
         //   Say=false;
-          console.log("AccStatus"+ AccStatus);
+         // console.log("AccStatus"+ AccStatus);
            Say = true;
-           if( AccStatus ) 
-           { 
+           
+          if( AccStatus ) 
+          { 
+              AccStatus = true;
               validAnswer = true;
-           }
-           else
-           {
+          }
+          else
+          {
+              AccStatus = false; 
               validAnswer = false;
-           }
+          }
          
         //   Listen = false;
         //   Redirect = "task://Account_Status";

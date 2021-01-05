@@ -28,10 +28,12 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     if(ReAccountNo === null)
     {
        AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
+       //AccountNo = AccountNo.slice(1);
     }
     else
     {
       AccountNo = ReAccountNo;
+      //AccountNo = ReAccountNo.slice(1);
     }
     console.log("AccountNo:" +AccountNo);
     
@@ -59,21 +61,13 @@ exports.getAccount_task =async function(context, event, callback,RB) {
             accountStatus: userRespData.AccStatus === '1' ? true : false,
             userTotalBalance: +userRespData.TotalBalance
           };
-
           Remember.userData = userData;
           Say=false;
           Listen = false;
           Redirect = "task://check_name_task";
-
-        } else {
-          Say = `You have entered ${AccountNo} is not correct.`;
-          Redirect = "task://getAccount";
-          Collect = false;
-          Listen = false;
-          
         }
-  
-      } 
+          
+     }
       else
       {
         //Say=`You dit't enter.`;
