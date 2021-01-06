@@ -1,12 +1,12 @@
 const axios = require('axios');
 // This is your new function. To start, set the name and path on the left.
-const API_ENDPOINT = 'https://pecodeviis:Test123!@pecodev.convergentusa.com/Convergent_Main_IVR/Home';
+const API_ENDPOINT = 'https://pecodeviis:Test123!@peco.convergentusa.com/Convergent_Main_IVR/Home';
 
 exports.greeting_task =async function(context, event, callback,RB) {
     let Say;
     let Prompt;
     let Listen = false;
-    let Collect = true;
+    let Collect = false;
     let Remember = {};
     let Tasks = false;
     let Redirect = false;
@@ -21,7 +21,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
     let userPhoneNumber = event.UserIdentifier;
     Remember.AccountFrom = "-1";
     let TFN = "";
-  
+    
     let bTFn_success = false;
     if(TFN === undefined)
     {
@@ -33,7 +33,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
     {
       TFN = '8559092691';
          userPhoneNumber = "+14151234567";
-       // userPhoneNumber = "+17044880416";
+        //userPhoneNumber = "+17044880416";
       Remember.TFN = '8559092691';
       Remember.user_phone_number = userPhoneNumber;
       userPhoneNumber = userPhoneNumber.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
@@ -56,9 +56,13 @@ exports.greeting_task =async function(context, event, callback,RB) {
           //F_Letter_Namespace:  clientRespData.NameSpace.substring((clientRespData.NameSpace.length -1),clientRespData.NameSpace.length)
         };
         Say = true;
+        Listen = false;
         Say = `Thank you for calling. ${clientRespData.ClientName} `;
         Remember.user_phone_number=clientRespData.PhoneNumberTo;
         Remember.clientData = clientData;
+        Remember.AccountFrom = "Phone";
+        Redirect = true;
+        Redirect = "task://getAccount";
         
       }
       else
@@ -71,94 +75,12 @@ exports.greeting_task =async function(context, event, callback,RB) {
       }
     }
 
-   // 
-  /// GetAccountInfo throufh user phone
-    if ( Remember.user_phone_number && bTFn_success ) {
-
-     // userPhoneNumber = userPhoneNumber.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
   
-     const reqData = {
-      accountNumber: userPhoneNumber,
-      namespace: Remember.clientData.namespace,
-      host: Remember.clientData.host,
-      callerPhoneNumber: Remember.user_phone_number,
-      TFN: Remember.TFN
-    };
-      
-      const { success, userRespData } = await GetInboundAccountInfo(reqData);
-
-      if ( success ) {
-        const userData = {
-          userName: userRespData.FullName,
-          userZip: userRespData.ZipCd,
-          userSsnLastFour: userRespData.SSNLastFour,
-          accountNumber: userRespData.SeedAcct,
-          accountStatus: userRespData.AccStatus === '1' ? true : false,
-          userTotalBalance: +userRespData.TotalBalance
-        };
-        console.log("Get success");
-        Remember.AccountFrom = "Phone";
-
-        Remember.userData = userData;
-        
-        Redirect = true;
-        Collect = false;
-        Redirect = "task://check_name_task" ;
-        
-      } else {
-        
-        Collect= {
-          "name": "collect_Accountnumber",
-          "questions": [
-                  {
-                  "question": `We could not find your account based on the phone number you are calling from. Please enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located in the upper right corner of the letter or in the body of the SMS you received. Enter the numerical digits after the letter ${Remember.clientData.F_Letter_Namespace}.`,
-                  //"prefill": "NumberOfacct",
-                  "name": "NumberOfacct",
-                  "voice_digits": {
-                    "num_digits": 20,
-                    "finish_on_key": "#"
-                    
-                  },
-                  
-                  "validate": {
-                    "on_failure": {
-                      "messages": [
-                        {
-                          "say": "Sorry, that's not a valid account .",
-                        },
-                        {
-                          "say": "Hmm, I'm not understanding. ",
-                        }
-                      ],
-                      "repeat_question": true
-                    },
-                    "webhook": {
-                      "url": "https://getaccountinfo-8115-dev.twil.io/ValidateAccount",
-                      "method": "POST"
-                    },
-                    "on_success": {
-                      "say": "Great, we've got your account details"
-                    },
-                    "max_attempts": {
-                      "redirect": "task://agent_transfer",
-                      "num_attempts": 3
-                    }
-                  }
-                  }
-    
-                ],
-          "on_complete": {
-          "redirect": 	 "task://getAccount"
-                  }
-        };
-        
-        
-      }
-
-    }
-
     RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
   };
+
+
+
   const TFN_Lookup = async ( phoneNumber,TFN ) => {
     let clientRespData;
     let success;
@@ -180,7 +102,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
   
     return { success, clientRespData };
   };
-  
+ /* 
   const GetInboundAccountInfo = async ( reqData ) => {
     let userRespData;
     let success;
@@ -211,6 +133,6 @@ exports.greeting_task =async function(context, event, callback,RB) {
     return { success, userRespData };
 
   };
-   
+   */
     
  

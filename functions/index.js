@@ -7,11 +7,13 @@ const check_name_TaskHandler = require(functions['check_name_task'].path);
 const ZipOrSSN_TaksHandler = require(functions['ZipOrSSN_Taks'].path);  
 const NameNotMatchTaksHandler = require(functions['NameNotMatch'].path); 
 const yes_noTaksHandler = require(functions['yes_no_task'].path); 
+const agent_transfer_TaskHandler = require(functions['agent_transfer_task'].path); 
 
 exports.handler = async (context, event, callback) => {
 
   const { CurrentTask } = event;
-  console.log(CurrentTask);
+  const { CurrentTaskConfidence } = event;
+  console.log("CurrentTask : "+ CurrentTask +" ,Confidence: " + CurrentTaskConfidence + '\n');
   // calling task handlers
   switch (CurrentTask) {
     case 'greeting':
@@ -38,6 +40,10 @@ exports.handler = async (context, event, callback) => {
           console.log("yes_no:");
             await yes_noTaksHandler.yes_no_task(context, event, callback,responseBuilder.RB);
             break;
+    case 'agent_transfer':
+      await agent_transfer_TaskHandler.agent_transfer_task(context, event, callback,responseBuilder.RB);
+      break;
+
     case 'fallback':
       await FallbackTaskHandler.fallback_task(context, event, callback,responseBuilder.RB);
       break;
