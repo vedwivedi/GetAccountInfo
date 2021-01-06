@@ -16,7 +16,7 @@ exports.Account_Status_task =async function(context, event, callback,RB) {
     let name_check = Memory.userData.userName;
     let sQues = "";
     let Accountnumber = Memory.userData.accountNumber;
-    let accountStatus = Memory.userData.AccStatus;
+    let accountStatus = Memory.userData.accountStatus;
 
     if( accountStatus == false)
     {
