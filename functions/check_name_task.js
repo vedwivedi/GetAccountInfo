@@ -29,43 +29,6 @@ exports.check_name_task =async function(context, event, callback,RB) {
     Say = `${sQues}`;
     Listen = true;
 
-        // Collect =  {
-        //   "name": "collect_comments",
-        //   "questions": [
-        //     {
-        //       "question": `${sQues}`,
-        //       "name": "comments",
-        //       "validate": {
-        //         "allowed_values": {
-        //           "list": [
-        //             "Yes",
-        //             "1",
-        //             "No",
-        //             "2"
-        //           ]
-        //         },
-        //         "on_failure": {
-        //           "messages": [
-        //             {
-        //               "say": "you have wrog input try again."
-        //             }
-        //           ],
-        //           "repeat_question": true
-        //         },
-        //         "on_success": {
-        //           "say": "Thank you for confirmation."
-        //         },
-        //         "max_attempts": {
-        //           "redirect": "task://agent_transfer",
-        //           "num_attempts": 3
-        //         }
-        //       }
-        //     }
-        //   ],
-        //   "on_complete": {
-        //     "redirect": "task://yes_no_task"
-        //   }
-        // };
         Remember.question = "check_name_task"
         if(Memory.check_name_task_cnt === undefined)
            Remember.check_name_task_cnt = 0;
@@ -76,10 +39,6 @@ exports.check_name_task =async function(context, event, callback,RB) {
             
         }
 
-
-
-            
-      //}
     
     RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
   };
