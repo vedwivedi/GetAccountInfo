@@ -13,6 +13,7 @@ exports.check_name_task =async function(context, event, callback,RB) {
     let Handoff = false;
 
     const Memory = JSON.parse(event.Memory);
+    Remember.CurrentTask = "check_name_task";
     let name_check = Memory.userData.userName;
     let sQues = "";
     let Accountnumber = Memory.userData.accountNumber;
@@ -28,8 +29,10 @@ exports.check_name_task =async function(context, event, callback,RB) {
 
     Say = `${sQues}`;
     Listen = true;
+    Remember.question = "check_name_task"
+    Tasks = ['yes_no', 'agent_transfer'];
 
-        Remember.question = "check_name_task"
+        
         if(Memory.check_name_task_cnt === undefined)
            Remember.check_name_task_cnt = 0;
         else 

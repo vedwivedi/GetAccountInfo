@@ -26,7 +26,7 @@ exports.handler = async (context, event, callback) => {
       break;
 
     case 'Account_Status':
-      await Account_StatusTaskHandler.getAccount_task(context, event, callback,responseBuilder.RB);
+      await Account_StatusTaskHandler.Account_Status_task(context, event, callback,responseBuilder.RB);
       break;
 
     case 'check_name_task':

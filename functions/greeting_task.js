@@ -17,7 +17,8 @@ exports.greeting_task =async function(context, event, callback,RB) {
     //let testtfn = Memory.twilio.voice.To;
    // let testusernumber = Memory.twilio.voice.From;
     
-   
+    Remember.fallback = "";
+    Remember.CurrentTask = "greeting";
     let userPhoneNumber = event.UserIdentifier;
     Remember.AccountFrom = "-1";
     let TFN = "";

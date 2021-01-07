@@ -15,6 +15,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     const Memory = JSON.parse(event.Memory);
 
     Remember.clientData = Memory.clientData;
+    Remember.CurrentTask = "getAccount_task";
 
     // Getting the real caller ID
     let sMsg = "";
@@ -25,13 +26,13 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     else    
         sMsg = "in the upper right hand corner of the letter you received";     
 
-   let squestion = `Please enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located ${sMsg}. Enter the numerical digits after the letter ${Remember.clientData.F_Letter_Namespace}.`; 
+   let squestion = `Please Say or enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located ${sMsg}. Enter the number digits after the letter ${Remember.clientData.F_Letter_Namespace}.`; 
    
    let bPhone = false;
    
    if(Memory.AccountFrom == "Phone")
    {
-      squestion = `We could not find your account number from the phone you are calling. Please enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located ${sMsg}. Enter the numerical digits after the letter ${Remember.clientData.F_Letter_Namespace}.`; 
+      squestion = `We could not find your account number from the phone you are calling. Please Say or enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located ${sMsg}. Enter the number digits after the letter ${Remember.clientData.F_Letter_Namespace}.`; 
       bPhone = true;
    }
   
@@ -43,7 +44,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
               "question": `${squestion}`,
               "prefill": "NumberOfacct",
               "name": "NumberOfacct",
-             "type": "Twilio.NUMBER",
+              "type": "Twilio.NUMBER_SEQUENCE",
               "voice_digits": {
                 "num_digits": 20,
                 "finish_on_key": "#"
@@ -80,12 +81,17 @@ exports.getAccount_task =async function(context, event, callback,RB) {
       {
         AccountNo = null
       }
+      if(Memory.fallback == "fallback")
+      {
+        AccountNo = null
+      }
 
     }
 
     let YesNo= null;
      if(Memory.AccountFailed_Counter >=2)
      {
+      Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
       Redirect = true;
       Redirect = "task://agent_transfer";
       RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
@@ -135,7 +141,15 @@ exports.getAccount_task =async function(context, event, callback,RB) {
           Say=false;
           Listen = false;
           Redirect = true;
-          Redirect = "task://check_name_task";
+          if( userData.accountStatus )
+              Redirect = "task://check_name_task";
+          else
+          {
+            Collect = false;
+            Redirect = true;
+            Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as>`;
+            Redirect = "task://agent_transfer";
+          }
         }
         else
         {
@@ -154,6 +168,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
 
 
           Collect  = true;
+          Remember.question ="getAccount_task";
           Collect = Collect_Json;
 
         }
@@ -170,6 +185,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
          
         }
           Collect  = true;
+          Remember.question ="getAccount_task";
           Collect = Collect_Json;
 
         

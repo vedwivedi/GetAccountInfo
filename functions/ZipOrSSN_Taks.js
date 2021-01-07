@@ -9,7 +9,8 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
     let Handoff = false;
     
     const Memory = JSON.parse(event.Memory);
-    
+
+    Remember.CurrentTask = "ZipOrSSN_Task";
     let Zipcode = Memory.userData.userZip;
     let SSNCode = Memory.userData.userSsnLastFour;
     let enterdigit = "";
@@ -57,7 +58,10 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
           };
         
     if(enterdigit == null)  
+    {
+          Remember.question ="ZipOrSSN_Task";
           Collect = Collect_Json;
+    }
     else 
     {
       if(enterdigit == SSNCode)
@@ -84,7 +88,8 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
            Say = `The  Zip Code, <say-as interpret-as='digits'>${enterdigit}</say-as> you entered is not correct.`; 
         else
            Say = `The  Last 4 digits of your social security number, <say-as interpret-as='digits'>${enterdigit}</say-as> you entered is not correct.`;  
-
+        
+        Remember.question ="ZipOrSSN_Task";
         Collect = Collect_Json;
             
         

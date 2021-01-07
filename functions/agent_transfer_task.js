@@ -8,7 +8,7 @@ exports.agent_transfer_task =async function(context, event, callback,RB) {
     let Handoff = false;
     let Say = "";
     
-      Say="transfer to agent";
+      
       Remember.Agent = true;
      RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
     
