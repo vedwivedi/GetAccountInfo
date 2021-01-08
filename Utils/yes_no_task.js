@@ -1,7 +1,7 @@
 // reference to function with exports.handler
 // const functions = Runtime.getFunctions();
 // let PA = require(functions['PaymentArrangement'].path);
-const eventHandler = require('../functions/yes_no_task.js');
+const eventHandler = require('../functions/greeting_task.js');
 const responseBuilder = require('./response_builder.js');
  
 const context = {};
@@ -11,7 +11,7 @@ AssistantSid: 'UAxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1',
 DialogueSid: 'UKxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1',
 date_created: '',
 UserIdentifier: '+14151234567',
-CurrentInput: 'ABC',
+CurrentInput: 'agent',
 CurrentTask: 'fallback',
 DialoguePayloadUrl:
 'https://autopilot.twilio.com/v1/Assistants/UAxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1/Dialogues/UKxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1',

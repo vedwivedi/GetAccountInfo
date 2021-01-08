@@ -19,30 +19,20 @@ exports.check_name_task =async function(context, event, callback,RB) {
     let Accountnumber = Memory.userData.accountNumber;
 
     if(Memory.AccountFrom == "Phone")
-    {
       sQues = `if your name is, ${name_check}  and  your account number is ${Accountnumber},,Please Press  1 or Say Yes to confirm your name, , press 2 or Say No,, if that is not your name  `;
-    }
     else
-    {
        sQues = `if your name is, ${name_check} ,,Please Press  1 or Say Yes to confirm your name, , press 2 or Say No,, if that is not your name `;
-    }
 
     Say = `${sQues}`;
     Listen = true;
     Remember.question = "check_name_task"
     Tasks = ['yes_no', 'agent_transfer'];
-
-        
-        if(Memory.check_name_task_cnt === undefined)
-           Remember.check_name_task_cnt = 0;
-        else 
-        {
-          
-            Remember.check_name_task_cnt = parseInt(Memory.check_name_task_cnt) + 1;
+  
+    if(Memory.check_name_task_cnt === undefined)
+      Remember.check_name_task_cnt = 0;
+    else 
+      Remember.check_name_task_cnt = parseInt(Memory.check_name_task_cnt) + 1;
             
-        }
-
-    
     RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
   };
 

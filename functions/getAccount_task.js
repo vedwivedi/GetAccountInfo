@@ -81,22 +81,20 @@ exports.getAccount_task =async function(context, event, callback,RB) {
       {
         AccountNo = null
       }
-      if(Memory.fallback == "fallback")
-      {
-        AccountNo = null
-      }
-
+      
     }
-
+    
+    console.log("MemorygetAccount_task_counter; " +Memory.AccountFailed_Counter);
     let YesNo= null;
-     if(Memory.AccountFailed_Counter >=2)
-     {
-      Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
-      Redirect = true;
-      Redirect = "task://agent_transfer";
-      RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
-      return;
-     }
+    //  if(Memory.AccountFailed_Counter >=2)
+    //  {
+    //   Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
+    //   Collect = false;
+    //   Redirect = true;
+    //   Redirect = "task://agent_transfer";
+    //   RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
+    //   return;
+    //  }
     
     if(Memory.check_name_task_yesno  != undefined)
     {
@@ -141,21 +139,31 @@ exports.getAccount_task =async function(context, event, callback,RB) {
           Say=false;
           Listen = false;
           Redirect = true;
+          Remember.AccountFailed_Counter = 0;
           if( userData.accountStatus )
               Redirect = "task://check_name_task";
           else
           {
             Collect = false;
             Redirect = true;
-            Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as>`;
+            Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> is not active.`;
             Redirect = "task://agent_transfer";
           }
         }
         else
         {
+          if(Memory.AccountFailed_Counter >=2)
+          {
+            Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
+            Collect = false;
+            Redirect = true;
+            Redirect = "task://agent_transfer";
+            RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
+            return;
+          }
 
           if(Memory.AccountFailed_Counter === undefined)
-           Remember.AccountFailed_Counter = 0;
+              Remember.AccountFailed_Counter = 0;
           else 
           {
           
@@ -176,8 +184,17 @@ exports.getAccount_task =async function(context, event, callback,RB) {
      }
       else
       {
+        if(Memory.AccountFailed_Counter >=2)
+        {
+          Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
+          Collect = false;
+          Redirect = true;
+          Redirect = "task://agent_transfer";
+          RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
+          return;
+        }
         if(Memory.AccountFailed_Counter === undefined)
-        Remember.AccountFailed_Counter = 0;
+            Remember.AccountFailed_Counter = 0;
         else 
         {
          
@@ -214,7 +231,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
       const responseObj = await axios.post(`${API_ENDPOINT}/GetInboundAccountInfo`, requestObj);
       userRespData = responseObj.data;
   
-      success = userRespData.Status === 'OK' ? true : false;
+      success = userRespData.Returns === '1' ? true : false;
       
     } catch ( error ) {
       console.error( error.response );

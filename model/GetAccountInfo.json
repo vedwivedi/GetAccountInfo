@@ -7,7 +7,7 @@
             "assistant_initiation" : "task://greeting",
             "fallback" : "task://fallback",
             "collect" : {
-                "validate_on_failure" : "task://collect_fallback"
+                "validate_on_failure" : "task://fallback"
             }
         }
     },
@@ -20,7 +20,7 @@
                         "messages" : [
                             {
                                 "say" : {
-                                    "speech" : "I didn't get that. What did you say?"
+                                    "speech" : "I didn't get that. What did you say."
                                 }
                             },
                             {
@@ -36,11 +36,11 @@
                         ]
                     },
                     "on_success" : { "say" : { "speech" : "" } },
-                    "max_attempts" : 4
+                    "max_attempts" : 1
                 }
             },
             "voice" : {
-                "say_voice" : "Polly.Matthew"
+                "say_voice" : "[Polly] Joanna-Neural"
             },
             "name" : ""
         }
@@ -48,56 +48,364 @@
     "fieldTypes" : [],
     "tasks" : [
         {
-            "uniqueName" : "dummy",
+            "uniqueName" : "yes_no",
             "actions" : {
                 "actions" : [
                     {
-                        "say" : {
-                            "speech" : "This is Gretting taks test"
-                        }
-                    },
-                    { "remember" : {} }
-                ]
-            },
-            "fields" : [],
-            "samples" : []
-        },
-        {
-            "uniqueName" : "Account_Details",
-            "actions" : {
-                "actions" : [
-                    {
-                        "say" : "This is your new Task"
+                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
                     }
                 ]
             },
-            "fields" : [],
-            "samples" : []
+            "fields" : [
+                {
+                    "uniqueName" : "yes_no",
+                    "fieldType" : "Twilio.YES_NO"
+                }
+            ],
+            "samples" : [
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no}  that is my name"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} that's not my name."
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} that't not it"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} that's it"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} it is correct"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} that's wrong"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "that's right {yes_no}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} that's right"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "thank you {yes_no}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no}  thank you"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "Please {yes_no}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} please"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no}  that is not my name"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} that's incorrect"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} that't not it"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} not correct"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} that is my name"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} that is my name"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} not"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} its not my name"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} it's right"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} right"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{yes_no} it's correct"
+                }
+            ]
         },
         {
-            "uniqueName" : "Tfn_Lookup",
+            "uniqueName" : "NameNotMatch",
             "actions" : {
                 "actions" : [
                     {
-                        "say" : "This is your new Task"
-                    }
-                ]
-            },
-            "fields" : [],
-            "samples" : []
-        },
-        {
-            "uniqueName" : "collect_fallback",
-            "actions" : {
-                "actions" : [
-                    {
-                        "say" : "Looks like I'm having trouble. Apologies for that. Let's start again, how can I help you today?"
+                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
                     },
                     { "listen" : true }
                 ]
             },
             "fields" : [],
             "samples" : []
+        },
+        {
+            "uniqueName" : "check_name_task",
+            "actions" : {
+                "actions" : [
+                    {
+                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
+                    },
+                    { "listen" : true }
+                ]
+            },
+            "fields" : [],
+            "samples" : []
+        },
+        {
+            "uniqueName" : "set_MM",
+            "actions" : {
+                "actions" : [
+                    {
+                        "say" : "This communication is from a debt collector, this is an attempt to collect a debt and any information obtained will be used for that purpose"
+                    }
+                ]
+            },
+            "fields" : [],
+            "samples" : []
+        },
+        {
+            "uniqueName" : "ZipOrSSN_Taks",
+            "actions" : {
+                "actions" : [
+                    {
+                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
+                    },
+                    { "listen" : true }
+                ]
+            },
+            "fields" : [
+                {
+                    "uniqueName" : "zip_ssn",
+                    "fieldType" : "Twilio.NUMBER_SEQUENCE"
+                }
+            ],
+            "samples" : [
+                {
+                    "language" : "en-US",
+                    "taggedText" : "zip code is {zip_ssn}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "my zip code is {zip_ssn}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "zipcode {zip_ssn}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{zip_ssn} its my zip"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{zip_ssn} its my ssn"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "okay my ssn is {zip_ssn}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "thank you {zip_ssn}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{zip_ssn} thank you"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{zip_ssn} is my ssn"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{zip_ssn} is my zip"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{zip_ssn}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "my ssn is {zip_ssn}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "my zip is {zip_ssn}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "zip is {zip_ssn}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "ssn is {zip_ssn} "
+                }
+            ]
+        },
+        {
+            "uniqueName" : "Account_Status",
+            "actions" : {
+                "actions" : [
+                    {
+                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
+                    }
+                ]
+            },
+            "fields" : [],
+            "samples" : []
+        },
+        {
+            "uniqueName" : "getAccount",
+            "actions" : {
+                "actions" : [
+                    {
+                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
+                    },
+                    { "listen" : true }
+                ]
+            },
+            "fields" : [],
+            "samples" : []
+        },
+        {
+            "uniqueName" : "agent_transfer",
+            "actions" : {
+                "actions" : [
+                    {
+                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
+                    }
+                ]
+            },
+            "fields" : [
+                {
+                    "uniqueName" : "Agent",
+                    "fieldType" : "Twilio.ALPHANUMERIC"
+                }
+            ],
+            "samples" : [
+                {
+                    "language" : "en-US",
+                    "taggedText" : "operator"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "agent"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "Please connect me to an agent"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "I want to talk to an operator"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "I want to to talk to an agent"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "transfer me to an agent"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "I'd like to talk to an agent"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "Operator"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "{Agent}"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "agent"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "discuss with agent"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "talk to agent"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "i want agent transfer"
+                }
+            ]
+        },
+        {
+            "uniqueName" : "dummy",
+            "actions" : {
+                "actions" : [
+                    {
+                        "say" : {
+                            "speech" : "if your name is, JUBITZA FIGUEROA ,,Please Press 1 or Say Yes to confirm your name, , press 2 or Say No,, if that is not your name "
+                        }
+                    },
+                    {
+                        "listen" : {
+                            "tasks" : [
+                                "yes_no",
+                                "agent_transfer"
+                            ]
+                        }
+                    },
+                    {
+                        "remember" : {
+                            "check_name_task_cnt" : 1,
+                            "question" : "check_name_task",
+                            "CurrentTask" : "check_name_task"
+                        }
+                    }
+                ]
+            },
+            "fields" : [],
+            "samples" : [
+                {
+                    "language" : "en-US",
+                    "taggedText" : "dummy"
+                }
+            ]
         },
         {
             "uniqueName" : "greeting",
@@ -273,6 +581,6 @@
         }
     ],
     "modelBuild" : {
-        "uniqueName" : "GetAccountInfo_29-12-2020_9.04.41pm"
+        "uniqueName" : "GetAccountInfo_8-1-2021_8.46.15pm"
     }
 }

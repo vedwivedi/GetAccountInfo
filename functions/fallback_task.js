@@ -12,7 +12,6 @@ exports.fallback_task =async function(context, event, callback,RB) {
   let Say = "";
   
     const Memory = JSON.parse(event.Memory);
-    Remember.fallback ="";
 
 
     switch ( Memory.question ) {
@@ -22,51 +21,39 @@ exports.fallback_task =async function(context, event, callback,RB) {
         else 
             Remember.getAccount_task_counter = parseInt(Memory.getAccount_task_counter) + 1;
 
-        if(Memory.getAccount_task_counter >= 2) 
-        {
-          Redirect ="task://agent_transfer";
-        }   
-        else
-        {
-          Redirect ="task://getAccount";
-        }
-        break;
+      if(Memory.getAccount_task_counter >= 2) 
+        Redirect ="task://agent_transfer";  
+      else
+        Redirect ="task://getAccount";
+    break;
 
-        case 'check_name_task':
-          if(Memory.check_name_task_counter === undefined)
-             Remember.check_name_task_counter = 1;
-          else 
-              Remember.check_name_task_counter = parseInt(Memory.check_name_task_counter) + 1;
+    case 'check_name_task':
+      if(Memory.check_name_task_counter === undefined)
+         Remember.check_name_task_counter = 1;
+      else 
+        Remember.check_name_task_counter = parseInt(Memory.check_name_task_counter) + 1;
   
-          if(Memory.check_name_task_counter >= 2) 
-          {
-            Redirect ="task://agent_transfer";
-          }   
-          else
-          {
-            Redirect ="task://check_name_task";
-          }
-          break;  
+      if(Memory.check_name_task_counter >= 2) 
+        Redirect ="task://agent_transfer";  
+      else
+        Redirect ="task://check_name_task";
+    break;  
 
-          case 'ZipOrSSN_Task':
-          if(Memory.ZipOrSSN_Task_counter === undefined)
-             Remember.ZipOrSSN_Task_counter = 1;
-          else 
-              Remember.ZipOrSSN_Task_counter = parseInt(Memory.ZipOrSSN_Task_counter) + 1;
+    case 'ZipOrSSN_Task':
+      if(Memory.ZipOrSSN_Task_counter === undefined)
+        Remember.ZipOrSSN_Task_counter = 1;
+      else 
+        Remember.ZipOrSSN_Task_counter = parseInt(Memory.ZipOrSSN_Task_counter) + 1;
   
-          if(Memory.ZipOrSSN_Task_counter >= 2) 
-          {
-            Redirect ="task://agent_transfer";
-          }   
-          else
-          {
-            Redirect ="task://ZipOrSSN_Taks";
-          }
-          break;  
+      if(Memory.ZipOrSSN_Task_counter >= 2) 
+        Redirect ="task://agent_transfer"; 
+      else
+        Redirect ="task://ZipOrSSN_Taks";
+      break;  
   
-      default:
+   default:
         Redirect ="task://agent_transfer";
-        break;
+    break;
     }
 
    RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);

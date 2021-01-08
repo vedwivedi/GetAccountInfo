@@ -1,7 +1,6 @@
 const functions = Runtime.getFunctions();
 const greetingTaskHandler = require(functions['greeting_task'].path);
 const getAccountTaskHandler = require(functions['getAccount_task'].path);
-const Account_StatusTaskHandler = require(functions['Account_Status_task'].path);
 const check_name_TaskHandler = require(functions['check_name_task'].path);
 const yes_noTaksHandler = require(functions['yes_no_task'].path); 
 const ZipOrSSN_TaksHandler = require(functions['ZipOrSSN_Taks'].path);  
@@ -25,9 +24,6 @@ exports.handler = async (context, event, callback) => {
       await getAccountTaskHandler.getAccount_task(context, event, callback,responseBuilder.RB);
       break;
 
-    case 'Account_Status':
-      await Account_StatusTaskHandler.Account_Status_task(context, event, callback,responseBuilder.RB);
-      break;
 
     case 'check_name_task':
       await check_name_TaskHandler.check_name_task(context, event, callback,responseBuilder.RB);

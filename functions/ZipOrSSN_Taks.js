@@ -21,6 +21,7 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
         {
         Collect = false;
         Redirect = true;
+        Say = `We need to transfer you to an agent because of your account is not verified`;
         Redirect = "task://agent_transfer";
         RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
         return;
@@ -68,6 +69,7 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
       {
         Collect = false;
         Redirect = true;
+        Say = `Thank you for validation your account with social security number.`; 
         Redirect ="task://set_MM";
 
       }
@@ -75,6 +77,7 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
       {
         Collect = false;
         Redirect = true;
+        Say = `Thank you for validation your account with Zip Code.`; 
         Redirect ="task://set_MM";
       }
       else
