@@ -68,7 +68,7 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
       {
         Collect = false;
         Redirect = true;
-        Say = `Thank you for validation your account with social security number.`; 
+        Say = `Thank you for validating your account with social security number.`; 
         Redirect ="task://set_MM";
 
       }
@@ -76,7 +76,7 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
       {
         Collect = false;
         Redirect = true;
-        Say = `Thank you for validation your account with Zip Code.`; 
+        Say = `Thank you for validating your account with Zip Code.`; 
         Redirect ="task://set_MM";
       }
       else

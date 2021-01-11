@@ -71,8 +71,9 @@ exports.RB=async function (Say, Listen, Remember, Collect, Tasks, Redirect, Hand
   console.log(JSON.stringify(responseObject));
   }
   catch{
-    console.log(responseObject);
+    console.log("catch:"+ JSON.stringify(responseObject));
   }
+  
   // return twilio function response
   callback(null, responseObject);
   }

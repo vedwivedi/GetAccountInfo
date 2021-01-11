@@ -13,9 +13,10 @@ exports.fallback_task =async function(context, event, callback,RB) {
   
     const Memory = JSON.parse(event.Memory);
 
-
+    console.log("Question:" +Memory.question);
     switch ( Memory.question ) {
       case 'getAccount_task':
+        Remember.Fallback_getAccount_task = true;
         if(Memory.getAccount_task_counter === undefined)
            Remember.getAccount_task_counter = 1;
         else 
@@ -45,7 +46,7 @@ exports.fallback_task =async function(context, event, callback,RB) {
       else 
         Remember.ZipOrSSN_Task_counter = parseInt(Memory.ZipOrSSN_Task_counter) + 1;
   
-      if(Memory.ZipOrSSN_Task_counter >= 2) 
+      if(Memory.ZipOrSSN_Task_counter >= 1) 
         Redirect ="task://agent_transfer"; 
       else
         Redirect ="task://ZipOrSSN_Taks";

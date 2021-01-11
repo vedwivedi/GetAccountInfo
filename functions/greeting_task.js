@@ -14,14 +14,15 @@ exports.greeting_task =async function(context, event, callback,RB) {
 
     const Memory = JSON.parse(event.Memory);
 
-    //let testtfn = Memory.twilio.voice.To;
-   // let testusernumber = Memory.twilio.voice.From;
     
+    let userPhoneNumber = "+13109025157123";//Memory.twilio.voice.From; //"+13109025157";
+    let TFN = "8559092691"; //Memory.twilio.voice.To;
+    console.log("userPhoneNumber :" +userPhoneNumber);
     Remember.fallback = "";
     Remember.CurrentTask = "greeting";
-    let userPhoneNumber = event.UserIdentifier;
+    //let userPhoneNumber = event.UserIdentifier;
     Remember.AccountFrom = "-1";
-    let TFN = "";
+    
     
     let bTFn_success = false;
     if(TFN === undefined)
@@ -32,10 +33,10 @@ exports.greeting_task =async function(context, event, callback,RB) {
     }
     else
     {
-      TFN = '8559092691';
-         userPhoneNumber = "+14151234567";
+     
+         //userPhoneNumber = "+14151234567";
         //userPhoneNumber = "+17044880416";
-      Remember.TFN = '8559092691';
+      Remember.TFN = TFN;
       Remember.user_phone_number = userPhoneNumber;
       userPhoneNumber = userPhoneNumber.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
       const { success, clientRespData } = await TFN_Lookup(userPhoneNumber,TFN);
@@ -63,7 +64,67 @@ exports.greeting_task =async function(context, event, callback,RB) {
         Remember.clientData = clientData;
         Remember.AccountFrom = "Phone";
         Redirect = true;
-        Redirect = "task://getAccount";
+        //Redirect = "task://getAccount";
+
+        const reqData = {
+          accountNumber: userPhoneNumber,
+          namespace: Remember.clientData.namespace,
+          host: Remember.clientData.host,
+          callerPhoneNumber: Remember.user_phone_number,
+          TFN: TFN
+        };
+        console.log("RequestData:"+ JSON.stringify(reqData));
+        const { success, userRespData } = await GetInboundAccountInfoWithPhone(reqData);
+        console.log("Accountsuccess:"+ success);
+        if ( success ) {
+          const userData = {
+            userName: userRespData.FullName,
+            userZip: userRespData.ZipCd,
+            userSsnLastFour: userRespData.SSNLastFour,
+            accountNumber: userRespData.SeedAcct,
+            accountStatus: userRespData.AccStatus === '1' ? true : false,
+            userTotalBalance: +userRespData.TotalBalance,
+            RouteBalance: userRespData.RouteBalance,	
+            AutomatedCCFlag: userRespData.AutomatedCCFlag,	
+            AutomatedCCFee: userRespData.AutomatedCCFee,	
+            AutomatedACHFlag: userRespData.AutomatedACHFlag,	
+            AutomatedACHFee: userRespData.AutomatedACHFee,	
+            ClientClass: userRespData.ClientClass,	
+            ClientAcct: userRespData.ClientAcct,	
+            ClientID: userRespData.ClientID,		
+            PhoneNum: userRespData.PhoneNum,	
+            Disposition: userRespData.Disposition,	
+            LastPayDate: userRespData.LastPayDate,	
+            LastPayAmnt: userRespData.LastPayAmnt,	
+            SeedAcct: userRespData.SeedAcct,	
+            ADD1: userRespData.ADD1,	
+            ADD2: userRespData.ADD2,	
+            CITY: userRespData.CITY,	
+            STATE: userRespData.STATE	
+
+          };
+          console.log("userData:"+ JSON.stringify(userData));
+          Remember.userData = userData;
+
+          if( userData.accountStatus )
+          {
+            console.log("accountStatus true:");
+            Redirect = "task://check_name_task";
+          }
+          else
+          {
+            console.log("accountStatus false:");
+            Redirect = "task://getAccount";
+          }
+        }
+        else
+        {
+            console.log("phone number not found record :");
+            Redirect = "task://getAccount";
+        }
+        
+        
+  
         
       }
       else
@@ -103,8 +164,9 @@ exports.greeting_task =async function(context, event, callback,RB) {
   
     return { success, clientRespData };
   };
- /* 
-  const GetInboundAccountInfo = async ( reqData ) => {
+
+ 
+  const GetInboundAccountInfoWithPhone = async ( reqData ) => {
     let userRespData;
     let success;
     
@@ -120,11 +182,12 @@ exports.greeting_task =async function(context, event, callback,RB) {
         'PhoneNumberTo': reqData.callerPhoneNumber, // the phone number they are calling to
         'IVRUsed':'MainIVR'
       };
+      console.log("requestObj: "+JSON.stringify(requestObj));
   
       const responseObj = await axios.post(`${API_ENDPOINT}/GetInboundAccountInfo`, requestObj);
       userRespData = responseObj.data;
   
-      success = userRespData.Status === 'OK' ? true : false;
+      success = userRespData.Returns === '1' ? true : false;
       
     } catch ( error ) {
       console.error( error.response );
@@ -134,6 +197,6 @@ exports.greeting_task =async function(context, event, callback,RB) {
     return { success, userRespData };
 
   };
-   */
+   
     
  

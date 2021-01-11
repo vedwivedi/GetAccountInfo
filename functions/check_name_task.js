@@ -3,6 +3,7 @@ const axios = require('axios');
 const API_ENDPOINT = 'https://pecodeviis:Test123!@pecodev.convergentusa.com/Convergent_Main_IVR/Home';
 
 exports.check_name_task =async function(context, event, callback,RB) {
+  console.log("check_name_task:");
     let Say;
     let Prompt;
     let Listen = false;
@@ -17,14 +18,15 @@ exports.check_name_task =async function(context, event, callback,RB) {
     let name_check = Memory.userData.userName;
     let sQues = "";
     let Accountnumber = Memory.userData.accountNumber;
+    
 
     if(Memory.AccountFrom == "Phone")
-      sQues = `if your name is, ${name_check}  and  your account number is ${Accountnumber},,Please Press  1 or Say Yes to confirm your name, , press 2 or Say No,, if that is not your name  `;
+      sQues = `if your name is, ${name_check}  and  your account number is <say-as interpret-as='digits'>${Accountnumber}</say-as>,,Please Press  1 or Say Yes to confirm your name, , press 2 or Say No,, if that is not your name  `;
     else
        sQues = `if your name is, ${name_check} ,,Please Press  1 or Say Yes to confirm your name, , press 2 or Say No,, if that is not your name `;
 
     Say = `${sQues}`;
-    Listen = true;
+    Listen = true;  // need to put code for maping
     Remember.question = "check_name_task"
     Tasks = ['yes_no', 'agent_transfer'];
   

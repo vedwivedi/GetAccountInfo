@@ -27,7 +27,17 @@ exports.getAccount_task =async function(context, event, callback,RB) {
         sMsg = "in the upper right hand corner of the letter you received";     
 
    let squestion = `Please Say or enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located ${sMsg}. Enter the number digits after the letter ${Remember.clientData.F_Letter_Namespace}.`; 
+   if(Memory.AccountFailed_Counter != undefined)
+      {
+        console.log("MemorygetAccount_task_counter; " +Memory.AccountFailed_Counter);
+        if(Memory.AccountFailed_Counter == 1)
+        {
+          squestion = "I did not understand." +squestion;
+        }
+
+      }
    
+
    let bPhone = false;
    
    if(Memory.AccountFrom == "Phone")
@@ -73,18 +83,32 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     }
     else
     {
-      try{
-        AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
-      
-      }
-      catch
+      if(Memory.Fallback_getAccount_task == true)
       {
-        AccountNo = null
+        AccountNo = null;
+        Memory.Fallback_getAccount_task = false;
+        Say = " ";
+          Collect = false;
+          Listen = false;
+          Redirect = true;
+          Redirect = "task://agent_transfer";
+          RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
+          return;
+      }
+      else{
+          try{
+              AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
+      
+            }
+          catch
+          {
+            AccountNo = null;
+           }   
       }
       
     }
     
-    console.log("MemorygetAccount_task_counter; " +Memory.AccountFailed_Counter);
+   
     let YesNo= null;
     //  if(Memory.AccountFailed_Counter >=2)
     //  {
@@ -119,13 +143,14 @@ exports.getAccount_task =async function(context, event, callback,RB) {
           accountNumber: AccountNo,
           namespace: Remember.clientData.namespace,
           host: Remember.clientData.host,
-          callerPhoneNumber: Remember.user_phone_number
+          callerPhoneNumber: Remember.user_phone_number,
+          TFN: Memory.TFN
         };
         
         const { success, userRespData } = await GetInboundAccountInfo(reqData);
   
         if ( success ) {
-          console.log("successAccountNo:"+ AccountNo);
+          console.log("userRespData:"+ JSON.stringify(userRespData));
           const userData = {
             userName: userRespData.FullName,
             userZip: userRespData.ZipCd,
@@ -152,16 +177,21 @@ exports.getAccount_task =async function(context, event, callback,RB) {
             STATE: userRespData.STATE	
 
           };
+          console.log("userData:"+ JSON.stringify(userData));
           Remember.userData = userData;
-          Remember.AccountFrom = 'Manual';
+          
           Say=false;
           Listen = false;
           Redirect = true;
           Remember.AccountFailed_Counter = 0;
           if( userData.accountStatus )
+          {
+            console.log("accountStatus true:");
               Redirect = "task://check_name_task";
+          }
           else
           {
+            console.log("accountStatus false:");
             Collect = false;
             Redirect = true;
             Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> is not active.`;
@@ -172,8 +202,9 @@ exports.getAccount_task =async function(context, event, callback,RB) {
         {
           if(Memory.AccountFailed_Counter >=2)
           {
-            //Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
+            Say = " ";
             Collect = false;
+            Listen = false;
             Redirect = true;
             Redirect = "task://agent_transfer";
             RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
@@ -188,6 +219,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
             Remember.AccountFailed_Counter = parseInt(Memory.AccountFailed_Counter) + 1;
             
           }
+          Remember.AccountFrom = "Manual";
 
           if( !bPhone )
               Say = `The account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
@@ -204,8 +236,11 @@ exports.getAccount_task =async function(context, event, callback,RB) {
       {
         if(Memory.AccountFailed_Counter >=2)
         {
+          console.log("AccountFailed_Counter where account is null");
           //Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
+          Say = " ";
           Collect = false;
+          Listen = false;
           Redirect = true;
           Redirect = "task://agent_transfer";
           RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
@@ -242,7 +277,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
         'SeedFlag': '1',  // hard coded
         'Host': reqData.host, // coming from the result of TFN_LookUp
         'PhoneNumber': reqData.callerPhoneNumber, // caller’s phone number
-        'PhoneNumberTo': '+19993602702146', // the phone number they are calling to
+        'PhoneNumberTo': reqData.TFN, // the phone number they are calling to
         'IVRUsed':'MainIVR'
       };
   
