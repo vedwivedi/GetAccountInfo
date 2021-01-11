@@ -16,28 +16,27 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
     let enterdigit = "";
     let MSG = "";
     
-    if(Memory.ZipSSNFailed_Counter != undefined)
-        if(Memory.ZipSSNFailed_Counter >=2)
-        {
-        Collect = false;
-        Redirect = true;
-        Say = `We need to transfer you to an agent because of your account is not verified`;
-        Redirect = "task://agent_transfer";
-        RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
-        return;
-        }
+    //if(Memory.ZipSSNFailed_Counter != undefined)
+        // if(Memory.ZipSSNFailed_Counter >=2)
+        // {
+        // Collect = false;
+        // Redirect = true;
+        // //Say = `We need to transfer you to an agent because of your account is not verified`;
+        // Redirect = "task://agent_transfer";
+        // RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
+        // return;
+        // }
 
     try{
       enterdigit = Memory.twilio.collected_data.collect_ziporssn.answers.ziporssn.answer;
     
     }
-    catch
-    {
+    catch{
       enterdigit = null
     }
-    let squestion = `For your account verification please say or enter your Zip Code or the Last 4 digits of your Social Security number`;
+        let squestion = `For your account verification please say or enter your Zip Code or the Last 4 digits of your Social Security number`;
 
-    let Collect_Json =  {
+        let Collect_Json =  {
             "name": "collect_ziporssn",
             "questions": [
                     {
@@ -58,10 +57,10 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
                     }
           };
         
-    if(enterdigit == null)  
+    if(enterdigit == "" || enterdigit == null)  
     {
-          Remember.question ="ZipOrSSN_Task";
-          Collect = Collect_Json;
+        Remember.question ="ZipOrSSN_Task";
+        Collect = Collect_Json;
     }
     else 
     {
@@ -82,8 +81,18 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
       }
       else
       {
+        if(Memory.ZipSSNFailed_Counter >=2)
+        {
+        Collect = false;
+        Redirect = true;
+        //Say = `We need to transfer you to an agent because of your account is not verified`;
+        Redirect = "task://agent_transfer";
+        RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
+        return;
+        }
+
         if(Memory.ZipSSNFailed_Counter === undefined)
-           Remember.ZipSSNFailed_Counter = 0;
+           Remember.ZipSSNFailed_Counter = 1;
         else 
             Remember.ZipSSNFailed_Counter = parseInt(Memory.ZipSSNFailed_Counter) + 1;
 

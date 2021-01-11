@@ -29,7 +29,7 @@ exports.check_name_task =async function(context, event, callback,RB) {
     Tasks = ['yes_no', 'agent_transfer'];
   
     if(Memory.check_name_task_cnt === undefined)
-      Remember.check_name_task_cnt = 0;
+      Remember.check_name_task_cnt = 1;
     else 
       Remember.check_name_task_cnt = parseInt(Memory.check_name_task_cnt) + 1;
             

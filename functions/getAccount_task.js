@@ -32,7 +32,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
    
    if(Memory.AccountFrom == "Phone")
    {
-      squestion = `We could not find your account number from the phone you are calling. Please Say or enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located ${sMsg}. Enter the number digits after the letter ${Remember.clientData.F_Letter_Namespace}.`; 
+      squestion = `We could not find your account number from the phone you are calling. Please Say or enter your account number , located ${sMsg}.`; 
       bPhone = true;
    }
   
@@ -132,7 +132,25 @@ exports.getAccount_task =async function(context, event, callback,RB) {
             userSsnLastFour: userRespData.SSNLastFour,
             accountNumber: userRespData.SeedAcct,
             accountStatus: userRespData.AccStatus === '1' ? true : false,
-            userTotalBalance: +userRespData.TotalBalance
+            userTotalBalance: +userRespData.TotalBalance,
+            RouteBalance: userRespData.RouteBalance,	
+            AutomatedCCFlag: userRespData.AutomatedCCFlag,	
+            AutomatedCCFee: userRespData.AutomatedCCFee,	
+            AutomatedACHFlag: userRespData.AutomatedACHFlag,	
+            AutomatedACHFee: userRespData.AutomatedACHFee,	
+            ClientClass: userRespData.ClientClass,	
+            ClientAcct: userRespData.ClientAcct,	
+            ClientID: userRespData.ClientID,		
+            PhoneNum: userRespData.PhoneNum,	
+            Disposition: userRespData.Disposition,	
+            LastPayDate: userRespData.LastPayDate,	
+            LastPayAmnt: userRespData.LastPayAmnt,	
+            SeedAcct: userRespData.SeedAcct,	
+            ADD1: userRespData.ADD1,	
+            ADD2: userRespData.ADD2,	
+            CITY: userRespData.CITY,	
+            STATE: userRespData.STATE	
+
           };
           Remember.userData = userData;
           Remember.AccountFrom = 'Manual';
@@ -154,7 +172,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
         {
           if(Memory.AccountFailed_Counter >=2)
           {
-            Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
+            //Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
             Collect = false;
             Redirect = true;
             Redirect = "task://agent_transfer";
@@ -186,7 +204,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
       {
         if(Memory.AccountFailed_Counter >=2)
         {
-          Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
+          //Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
           Collect = false;
           Redirect = true;
           Redirect = "task://agent_transfer";
