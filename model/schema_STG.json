@@ -52,7 +52,7 @@
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2271-dev.twil.io/index"
                     }
                 ]
             },
@@ -162,24 +162,11 @@
             ]
         },
         {
-            "uniqueName" : "NameNotMatch",
-            "actions" : {
-                "actions" : [
-                    {
-                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
-                    },
-                    { "listen" : true }
-                ]
-            },
-            "fields" : [],
-            "samples" : []
-        },
-        {
             "uniqueName" : "check_name_task",
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2271-dev.twil.io/index"
                     },
                     { "listen" : true }
                 ]
@@ -204,7 +191,7 @@
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2271-dev.twil.io/index"
                     },
                     { "listen" : true }
                 ]
@@ -279,23 +266,11 @@
             ]
         },
         {
-            "uniqueName" : "Account_Status",
-            "actions" : {
-                "actions" : [
-                    {
-                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
-                    }
-                ]
-            },
-            "fields" : [],
-            "samples" : []
-        },
-        {
             "uniqueName" : "getAccount",
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2271-dev.twil.io/index"
                     },
                     { "listen" : true }
                 ]
@@ -308,7 +283,7 @@
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2271-dev.twil.io/index"
                     }
                 ]
             },
@@ -378,24 +353,12 @@
             "actions" : {
                 "actions" : [
                     {
-                        "say" : {
-                            "speech" : "if your name is, JUBITZA FIGUEROA ,,Please Press 1 or Say Yes to confirm your name, , press 2 or Say No,, if that is not your name "
-                        }
-                    },
-                    {
-                        "listen" : {
-                            "tasks" : [
-                                "yes_no",
-                                "agent_transfer"
-                            ]
-                        }
-                    },
-                    {
                         "remember" : {
-                            "check_name_task_cnt" : 1,
-                            "question" : "check_name_task",
-                            "CurrentTask" : "check_name_task"
+                            "getAccount_task_counter" : 1
                         }
+                    },
+                    {
+                        "redirect" : "task://getAccount"
                     }
                 ]
             },
@@ -412,7 +375,7 @@
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2271-dev.twil.io/index"
                     },
                     { "listen" : true }
                 ]
@@ -421,67 +384,7 @@
             "samples" : [
                 {
                     "language" : "en-US",
-                    "taggedText" : "whatsup"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "what do you do"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "sup"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "yo"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "hey"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "what can you do"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "what'us up"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "Hello."
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "hello"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "hi!"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "hi there."
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "hi there"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "good morning"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "heya"
-                },
-                {
-                    "language" : "en-US",
                     "taggedText" : "Hi"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "good afternoon"
                 }
             ]
         },
@@ -490,7 +393,7 @@
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2271-dev.twil.io/index"
                     },
                     { "listen" : true }
                 ]
@@ -581,6 +484,6 @@
         }
     ],
     "modelBuild" : {
-        "uniqueName" : "GetAccountInfo_8-1-2021_8.46.15pm"
+        "uniqueName" : "GetAccountInfo_9-1-2021_2.34.38am"
     }
 }
