@@ -18,11 +18,7 @@
                     "on_failure" : {
                         "repeat_question" : false,
                         "messages" : [
-                            {
-                                "say" : {
-                                    "speech" : "I didn't get that. What did you say."
-                                }
-                            },
+                            { "say" : { "speech" : "" } },
                             {
                                 "say" : {
                                     "speech" : "I still didn't catch that. Please repeat."
@@ -47,6 +43,18 @@
     },
     "fieldTypes" : [],
     "tasks" : [
+        {
+            "uniqueName" : "check_name_Yes_No",
+            "actions" : {
+                "actions" : [
+                    {
+                        "redirect" : "https://getaccountinfo-8115-dev.twil.io/index"
+                    }
+                ]
+            },
+            "fields" : [],
+            "samples" : []
+        },
         {
             "uniqueName" : "yes_no",
             "actions" : {
@@ -352,13 +360,10 @@
             "uniqueName" : "dummy",
             "actions" : {
                 "actions" : [
+                    { "say" : { "speech" : " " } },
+                    { "remember" : {} },
                     {
-                        "remember" : {
-                            "getAccount_task_counter" : 1
-                        }
-                    },
-                    {
-                        "redirect" : "task://getAccount"
+                        "redirect" : "task://agent_transfer"
                     }
                 ]
             },
@@ -484,6 +489,6 @@
         }
     ],
     "modelBuild" : {
-        "uniqueName" : "GetAccountInfo_9-1-2021_2.34.38am"
+        "uniqueName" : "GetAccountInfo_13-1-2021_1.25.55am"
     }
 }
