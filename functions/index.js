@@ -2,6 +2,7 @@ const functions = Runtime.getFunctions();
 const greetingTaskHandler = require(functions['greeting_task'].path);
 const getAccountTaskHandler = require(functions['getAccount_task'].path);
 const check_name_TaskHandler = require(functions['check_name_task'].path);
+const check_name_Yes_NoTaskHandler = require(functions['check_name_Yes_No'].path);
 const yes_noTaksHandler = require(functions['yes_no_task'].path); 
 const ZipOrSSN_TaksHandler = require(functions['ZipOrSSN_Taks'].path);  
 const agent_transfer_TaskHandler = require(functions['agent_transfer_task'].path);
@@ -28,6 +29,10 @@ exports.handler = async (context, event, callback) => {
     case 'check_name_task':
       await check_name_TaskHandler.check_name_task(context, event, callback,responseBuilder.RB);
       break;
+
+    case 'check_name_Yes_No':
+      await check_name_Yes_NoTaskHandler.check_name_Yes_No(context, event, callback,responseBuilder.RB);
+      break;  
 
     case 'ZipOrSSN_Taks':
       await ZipOrSSN_TaksHandler.ZipOrSSN_Task(context, event, callback,responseBuilder.RB);

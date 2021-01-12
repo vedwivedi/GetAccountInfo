@@ -17,6 +17,13 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     Remember.clientData = Memory.clientData;
     Remember.CurrentTask = "getAccount_task";
 
+    if(Memory.AccountFailed_Counter === undefined){
+      Remember.AccountFailed_Counter = 0;
+    }
+    else {
+      Remember.AccountFailed_Counter = parseInt(Memory.AccountFailed_Counter) + 1;
+    }
+
     // Getting the real caller ID
     let sMsg = "";
     if(Memory.clientData.channel == 'SMS')
@@ -27,14 +34,14 @@ exports.getAccount_task =async function(context, event, callback,RB) {
         sMsg = "in the upper right hand corner of the letter you received";     
 
    let squestion = `Please Say or enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located ${sMsg}. Enter the number digits after the letter ${Remember.clientData.F_Letter_Namespace}.`; 
+   
    if(Memory.AccountFailed_Counter != undefined)
       {
         console.log("MemorygetAccount_task_counter; " +Memory.AccountFailed_Counter);
         if(Memory.AccountFailed_Counter == 1)
         {
-          squestion = "I did not understand." +squestion;
+          squestion = "I did not understand. , " +squestion;
         }
-
       }
    
 
@@ -47,12 +54,12 @@ exports.getAccount_task =async function(context, event, callback,RB) {
    }
   
 
-  let Collect_Json =  {
+    let Collect_Json =  {
       "name": "collect_Accountnumber",
       "questions": [
               {
               "question": `${squestion}`,
-              "prefill": "NumberOfacct",
+              // "prefill": "NumberOfacct",
               "name": "NumberOfacct",
               "type": "Twilio.NUMBER_SEQUENCE",
               "voice_digits": {
@@ -71,9 +78,11 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     // console.log(userPhoneNumber);
     
     let userPhoneNumber = Memory.user_phone_number;
-    let AccountNo = false;
+    let AccountNo = null;
     Remember.user_phone_number = Memory.user_phone_number;
    
+    
+
     //Remember.AccountFrom = "-1";
     if(Memory.AccountFrom == "Phone")
     {
@@ -86,26 +95,22 @@ exports.getAccount_task =async function(context, event, callback,RB) {
       if(Memory.Fallback_getAccount_task == true)
       {
         AccountNo = null;
-        Memory.Fallback_getAccount_task = false;
-        Say = " ";
-          Collect = false;
-          Listen = false;
-          Redirect = true;
-          Redirect = "task://agent_transfer";
-          RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
-          return;
+        Remember.Fallback_getAccount_task = false;
+        console.log("Fallback_getAccount_task : "+  Memory.Fallback_getAccount_task);
+        
       }
       else{
           try{
+            console.log("collected_dataACCT : "+ Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer);
               AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
       
             }
           catch
           {
+            console.log("Catch collected_dataACCT : ");
             AccountNo = null;
-           }   
+          }   
       }
-      
     }
     
    
@@ -180,7 +185,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
           console.log("userData:"+ JSON.stringify(userData));
           Remember.userData = userData;
           
-          Say=false;
+          Say = false;
           Listen = false;
           Redirect = true;
           Remember.AccountFailed_Counter = 0;
@@ -200,25 +205,20 @@ exports.getAccount_task =async function(context, event, callback,RB) {
         }
         else
         {
+          console.log("is account is wrong : "+Memory.AccountFailed_Counter);
           if(Memory.AccountFailed_Counter >=2)
           {
-            Say = " ";
-            Collect = false;
+            console.log("AccountFailed_Counter wrong input");
+            Say = false;
             Listen = false;
+            Collect = false;
             Redirect = true;
             Redirect = "task://agent_transfer";
             RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
             return;
           }
 
-          if(Memory.AccountFailed_Counter === undefined)
-              Remember.AccountFailed_Counter = 0;
-          else 
-          {
           
-            Remember.AccountFailed_Counter = parseInt(Memory.AccountFailed_Counter) + 1;
-            
-          }
           Remember.AccountFrom = "Manual";
 
           if( !bPhone )
@@ -232,34 +232,31 @@ exports.getAccount_task =async function(context, event, callback,RB) {
         }
           
      }
-      else
-      {
-        if(Memory.AccountFailed_Counter >=2)
-        {
-          console.log("AccountFailed_Counter where account is null");
-          //Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
-          Say = " ";
-          Collect = false;
-          Listen = false;
-          Redirect = true;
-          Redirect = "task://agent_transfer";
-          RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
-          return;
-        }
-        if(Memory.AccountFailed_Counter === undefined)
-            Remember.AccountFailed_Counter = 0;
-        else 
-        {
-         
-         Remember.AccountFailed_Counter = parseInt(Memory.AccountFailed_Counter) + 1;
-         
-        }
+    else{
+        console.log("is account is null : "+Memory.AccountFailed_Counter);
+        // if(Memory.AccountFailed_Counter >=2)
+        // {
+        //   console.log("AccountFailed_Counter where account is null");
+        //     Say = false;
+        //     Listen = false;
+        //     Collect = false;
+        //     Redirect = true;
+        //     Redirect = "task://agent_transfer";
+        //     RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
+        //     return;
+        // }
+        // else
+        // {
+        
           Collect  = true;
           Remember.question ="getAccount_task";
           Collect = Collect_Json;
+        //}
 
         
       }
+
+      console.log("Say: "+Say +"Listen: "+ Listen +"Remember: "+ Remember+ "Collect: "+Collect+"Tasks: " +Tasks+ "Redirect: "+Redirect+ "Handoff: "+ Handoff);
     
     RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
   };

@@ -15,10 +15,10 @@ exports.greeting_task =async function(context, event, callback,RB) {
     const Memory = JSON.parse(event.Memory);
 
     
-    let userPhoneNumber = "+13109025157123";//Memory.twilio.voice.From; //"+13109025157";
+    let userPhoneNumber = Memory.twilio.voice.From; //"+13109025157";
     let TFN = "8559092691"; //Memory.twilio.voice.To;
     console.log("userPhoneNumber :" +userPhoneNumber);
-    Remember.fallback = "";
+    //Remember.fallback = "";
     Remember.CurrentTask = "greeting";
     //let userPhoneNumber = event.UserIdentifier;
     Remember.AccountFrom = "-1";
@@ -65,7 +65,8 @@ exports.greeting_task =async function(context, event, callback,RB) {
         Remember.AccountFrom = "Phone";
         Redirect = true;
         //Redirect = "task://getAccount";
-
+      if( bTFn_success == true  && userPhoneNumber != null)
+      {
         const reqData = {
           accountNumber: userPhoneNumber,
           namespace: Remember.clientData.namespace,
@@ -73,6 +74,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
           callerPhoneNumber: Remember.user_phone_number,
           TFN: TFN
         };
+        
         console.log("RequestData:"+ JSON.stringify(reqData));
         const { success, userRespData } = await GetInboundAccountInfoWithPhone(reqData);
         console.log("Accountsuccess:"+ success);
@@ -119,14 +121,17 @@ exports.greeting_task =async function(context, event, callback,RB) {
         }
         else
         {
-            console.log("phone number not found record :");
-            Redirect = "task://getAccount";
+          console.log("phone number not found record :");
+          Redirect = "task://getAccount";
         }
-        
-        
-  
-        
       }
+      else
+      {
+        console.log("phone number not found record :");
+        Redirect = "task://getAccount";
+      }
+        
+    }
       else
       {
         Say = `Thank you for calling. There was a problem with the call. `;

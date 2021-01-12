@@ -41,7 +41,6 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
             "questions": [
                     {
                     "question": `${squestion}`,
-                    "prefill": "ziporssn",
                     "name": "ziporssn",
                     "type": "Twilio.NUMBER_SEQUENCE",
                     "voice_digits": {
@@ -81,15 +80,15 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
       }
       else
       {
-        if(Memory.ZipSSNFailed_Counter >=2)
-        {
-        Collect = false;
-        Redirect = true;
-        //Say = `We need to transfer you to an agent because of your account is not verified`;
-        Redirect = "task://agent_transfer";
-        RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
-        return;
-        }
+         if(Memory.ZipSSNFailed_Counter >=2)
+         {
+           Collect = false;
+           Redirect = true;
+           Say = " ";
+           Redirect = "task://agent_transfer";
+           RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
+           return;
+         }
 
         if(Memory.ZipSSNFailed_Counter === undefined)
            Remember.ZipSSNFailed_Counter = 1;

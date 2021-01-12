@@ -17,15 +17,19 @@ exports.fallback_task =async function(context, event, callback,RB) {
     switch ( Memory.question ) {
       case 'getAccount_task':
         Remember.Fallback_getAccount_task = true;
-        if(Memory.getAccount_task_counter === undefined)
-           Remember.getAccount_task_counter = 1;
-        else 
-            Remember.getAccount_task_counter = parseInt(Memory.getAccount_task_counter) + 1;
+        // if(Memory.AccountFailed_Counter === undefined)
+        //    Remember.AccountFailed_Counter = 0;
+        // else 
+        //     Remember.AccountFailed_Counter = parseInt(Memory.AccountFailed_Counter) + 1;
 
-      if(Memory.getAccount_task_counter >= 2) 
+      if(Memory.AccountFailed_Counter >= 2) 
+      {
         Redirect ="task://agent_transfer";  
+      }
       else
+      {
         Redirect ="task://getAccount";
+      }
     break;
 
     case 'check_name_task':
