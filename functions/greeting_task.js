@@ -16,7 +16,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
 
     Remember.clientName = "";
     Remember.mailingAddress = "";
-    Remember.webPaymentAddress = "";
+    Remember.OnlinePaymentURL = "";
     Remember.transferAgentNumber = "";
     Remember.namespace = "";
     Remember.channel = "";
@@ -25,9 +25,9 @@ exports.greeting_task =async function(context, event, callback,RB) {
     Remember.F_Letter_Namespace = "";
     Remember.AccountFrom = "";
 
-    Remember.userName = "";
-    Remember.userZip = "";
-    Remember.userSsnLastFour = "";
+    Remember.FullName = "";
+    Remember.ZipCd = "";
+    Remember.SSNLastFour = "";
     Remember.accountNumber =  "";
     Remember.accountStatus =  "";
     Remember.userTotalBalance =  "";
@@ -102,13 +102,14 @@ exports.greeting_task =async function(context, event, callback,RB) {
 
           Remember.clientName = clientRespData.ClientName;
           Remember.mailingAddress = clientRespData.MailingAddress;
-          Remember.webPaymentAddress = clientRespData.WebPaymentAddress;
+          Remember.OnlinePaymentURL = clientRespData.WebPaymentAddress;
           Remember.transferAgentNumber = clientRespData.TransferAgentNumber;
           Remember.namespace = clientRespData.NameSpace;
           Remember.channel = clientRespData.Channel;
           Remember.host = clientRespData.Host;
           Remember.TFN = clientRespData.PhoneNumber;
           Remember.F_Letter_Namespace = (clientRespData.NameSpace.charAt(0));
+          
           Remember.AccountFrom = "Phone";
           Redirect = true;
         //Redirect = "task://getAccount";
@@ -156,9 +157,9 @@ exports.greeting_task =async function(context, event, callback,RB) {
             console.log("userData:"+ JSON.stringify(userData));
             Remember.userData = userData;
 
-            Remember.userName = userRespData.FullName;
-            Remember.userZip = userRespData.ZipCd;
-            Remember.userSsnLastFour = userRespData.SSNLastFour;
+            Remember.FullName = userRespData.FullName;
+            Remember.ZipCd = userRespData.ZipCd;
+            Remember.SSNLastFour = userRespData.SSNLastFour;
             Remember.accountNumber =  userRespData.SeedAcct;
             Remember.accountStatus =  userRespData.AccStatus === '1' ? true : false;
             Remember.userTotalBalance =  userRespData.TotalBalance;

@@ -14,9 +14,9 @@ exports.getAccount_task =async function(context, event, callback,RB) {
   
     const Memory = JSON.parse(event.Memory);
 
-    Remember.userName = "";
-    Remember.userZip = "";
-    Remember.userSsnLastFour = "";
+    Remember.FullName = "";
+    Remember.ZipCd = "";
+    Remember.SSNLastFour = "";
     Remember.accountNumber =  "";
     Remember.accountStatus =  "";
     Remember.userTotalBalance =  "";
@@ -38,6 +38,8 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     Remember.CITY =  "";	
     Remember.STATE =  "";	
     Remember.Status =  "";
+
+   
 
     Remember.clientData = Memory.clientData;
     Remember.CurrentTask = "getAccount_task";
@@ -211,9 +213,9 @@ exports.getAccount_task =async function(context, event, callback,RB) {
           console.log("userData:"+ JSON.stringify(userData));
           Remember.userData = userData;
 
-            Remember.userName = userRespData.FullName;
-            Remember.userZip = userRespData.ZipCd;
-            Remember.userSsnLastFour = userRespData.SSNLastFour;
+            Remember.FullName = userRespData.FullName;
+            Remember.ZipCd = userRespData.ZipCd;
+            Remember.SSNLastFour = userRespData.SSNLastFour;
             Remember.accountNumber =  userRespData.SeedAcct;
             Remember.accountStatus =  userRespData.AccStatus === '1' ? true : false;
             Remember.userTotalBalance =  userRespData.TotalBalance;
