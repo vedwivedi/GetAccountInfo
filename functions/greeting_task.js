@@ -30,7 +30,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
     Remember.SSNLastFour = "";
     Remember.accountNumber =  "";
     Remember.accountStatus =  "";
-    Remember.userTotalBalance =  "";
+    Remember.TotalBalance =  "";
     Remember.RouteBalance =  "";
     Remember.AutomatedCCFlag =  "";	
     Remember.AutomatedCCFee =  "";
@@ -109,7 +109,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
           Remember.host = clientRespData.Host;
           Remember.TFN = clientRespData.PhoneNumber;
           Remember.F_Letter_Namespace = (clientRespData.NameSpace.charAt(0));
-          
+
           Remember.AccountFrom = "Phone";
           Redirect = true;
         //Redirect = "task://getAccount";
@@ -133,7 +133,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
             userSsnLastFour: userRespData.SSNLastFour,
             accountNumber: userRespData.SeedAcct,
             accountStatus: userRespData.AccStatus === '1' ? true : false,
-            userTotalBalance: userRespData.TotalBalance,
+            TotalBalance: userRespData.TotalBalance,
             RouteBalance: userRespData.RouteBalance,	
             AutomatedCCFlag: userRespData.AutomatedCCFlag,	
             AutomatedCCFee: userRespData.AutomatedCCFee,	

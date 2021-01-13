@@ -19,7 +19,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     Remember.SSNLastFour = "";
     Remember.accountNumber =  "";
     Remember.accountStatus =  "";
-    Remember.userTotalBalance =  "";
+    Remember.TotalBalance =  "";
     Remember.RouteBalance =  "";
     Remember.AutomatedCCFlag =  "";	
     Remember.AutomatedCCFee =  "";
@@ -218,7 +218,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
             Remember.SSNLastFour = userRespData.SSNLastFour;
             Remember.accountNumber =  userRespData.SeedAcct;
             Remember.accountStatus =  userRespData.AccStatus === '1' ? true : false;
-            Remember.userTotalBalance =  userRespData.TotalBalance;
+            Remember.TotalBalance =  userRespData.TotalBalance;
             Remember.RouteBalance =  userRespData.RouteBalance;
             Remember.AutomatedCCFlag =  userRespData.AutomatedCCFlag;	
             Remember.AutomatedCCFee =  userRespData.AutomatedCCFee;
