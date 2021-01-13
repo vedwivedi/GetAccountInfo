@@ -48,6 +48,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
     Remember.ADD2 =  "";	
     Remember.CITY =  "";	
     Remember.STATE =  "";	
+    Remember.Status =  "";
 
     
     let userPhoneNumber = "+13109025157111"; //Memory.twilio.voice.From; //"+13109025157";
@@ -131,7 +132,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
             userSsnLastFour: userRespData.SSNLastFour,
             accountNumber: userRespData.SeedAcct,
             accountStatus: userRespData.AccStatus === '1' ? true : false,
-            userTotalBalance: +userRespData.TotalBalance,
+            userTotalBalance: userRespData.TotalBalance,
             RouteBalance: userRespData.RouteBalance,	
             AutomatedCCFlag: userRespData.AutomatedCCFlag,	
             AutomatedCCFee: userRespData.AutomatedCCFee,	
@@ -145,10 +146,11 @@ exports.greeting_task =async function(context, event, callback,RB) {
             LastPayDate: userRespData.LastPayDate,	
             LastPayAmnt: userRespData.LastPayAmnt,	
             SeedAcct: userRespData.SeedAcct,	
-            ADD1: userRespData.ADD1,	
-            ADD2: userRespData.ADD2,	
-            CITY: userRespData.CITY,	
-            STATE: userRespData.STATE	
+            ADD1: userRespData.Address1,	
+            ADD2: userRespData.Address2,	
+            CITY: userRespData.City,	
+            STATE: userRespData.State,
+            Status: userRespData.Status
 
           };
             console.log("userData:"+ JSON.stringify(userData));
@@ -169,14 +171,15 @@ exports.greeting_task =async function(context, event, callback,RB) {
             Remember.ClientAcct =  userRespData.ClientAcct;
             Remember.ClientID =  userRespData.ClientID;		
             Remember.PhoneNum =  userRespData.PhoneNum;	
-            Remember.Disposition =  userRespData.Dispositio;	
+            Remember.Disposition =  userRespData.Disposition;	
             Remember.LastPayDate =  userRespData.LastPayDate;	
             Remember.LastPayAmnt =  userRespData.LastPayAmnt;	
             Remember.SeedAcct =  userRespData.SeedAcct;	
-            Remember.ADD1 =  userRespData.ADD1;	
-            Remember.ADD2 =  userRespData.ADD2;	
-            Remember.CITY =  userRespData.CITY;	
-            Remember.STATE =  userRespData.STATE;	
+            Remember.ADD1 =  userRespData.Address1;	
+            Remember.ADD2 =  userRespData.Address2;	
+            Remember.CITY =  userRespData.City;	
+            Remember.STATE =  userRespData.State;	
+            Remember.Status =  userRespData.Status.toString();	
 
           if( userData.accountStatus )
           {
