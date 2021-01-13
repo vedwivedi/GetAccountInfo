@@ -51,7 +51,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
     Remember.Status =  "";
 
     
-    let userPhoneNumber = "+13109025157111"; //Memory.twilio.voice.From; //"+13109025157";
+    let userPhoneNumber = Memory.twilio.voice.From; //"+13109025157";
     let TFN = "8559092691"; //Memory.twilio.voice.To;
     Remember.Agent = false;
     console.log("userPhoneNumber :" +userPhoneNumber);
