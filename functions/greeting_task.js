@@ -14,8 +14,43 @@ exports.greeting_task =async function(context, event, callback,RB) {
 
     const Memory = JSON.parse(event.Memory);
 
+    Remember.clientName = "";
+    Remember.mailingAddress = "";
+    Remember.webPaymentAddress = "";
+    Remember.transferAgentNumber = "";
+    Remember.namespace = "";
+    Remember.channel = "";
+    Remember.host = "";
+    Remember.TFN = "";
+    Remember.F_Letter_Namespace = "";
+    Remember.AccountFrom = "";
+
+    Remember.userName = "";
+    Remember.userZip = "";
+    Remember.userSsnLastFour = "";
+    Remember.accountNumber =  "";
+    Remember.accountStatus =  "";
+    Remember.userTotalBalance =  "";
+    Remember.RouteBalance =  "";
+    Remember.AutomatedCCFlag =  "";	
+    Remember.AutomatedCCFee =  "";
+    Remember.AutomatedACHFlag =  "";
+    Remember.AutomatedACHFee =  "";	
+    Remember.ClientClass =  "";
+    Remember.ClientAcct =  "";
+    Remember.ClientID =  "";		
+    Remember.PhoneNum =  "";	
+    Remember.Disposition =  "";	
+    Remember.LastPayDate =  "";	
+    Remember.LastPayAmnt =  "";	
+    Remember.SeedAcct =  "";	
+    Remember.ADD1 =  "";	
+    Remember.ADD2 =  "";	
+    Remember.CITY =  "";	
+    Remember.STATE =  "";	
+
     
-    let userPhoneNumber = Memory.twilio.voice.From; //"+13109025157";
+    let userPhoneNumber = "+13109025157111"; //Memory.twilio.voice.From; //"+13109025157";
     let TFN = "8559092691"; //Memory.twilio.voice.To;
     Remember.Agent = false;
     console.log("userPhoneNumber :" +userPhoneNumber);
@@ -61,8 +96,9 @@ exports.greeting_task =async function(context, event, callback,RB) {
           Say = true;
           Listen = false;
           Say = `Thank you for calling. ${clientRespData.ClientName} `;
-          Remember.user_phone_number=clientRespData.PhoneNumberTo;
+          Remember.user_phone_number = clientRespData.PhoneNumberTo;
           Remember.clientData = clientData;
+
           Remember.clientName = clientRespData.ClientName;
           Remember.mailingAddress = clientRespData.MailingAddress;
           Remember.webPaymentAddress = clientRespData.WebPaymentAddress;
@@ -117,8 +153,9 @@ exports.greeting_task =async function(context, event, callback,RB) {
           };
             console.log("userData:"+ JSON.stringify(userData));
             Remember.userData = userData;
-            Remember.userName = userRespData.FullName,
-            Remember. userRespData.ZipCd,
+
+            Remember.userName = userRespData.FullName;
+            Remember.userZip = userRespData.ZipCd;
             Remember.userSsnLastFour = userRespData.SSNLastFour;
             Remember.accountNumber =  userRespData.SeedAcct;
             Remember.accountStatus =  userRespData.AccStatus === '1' ? true : false;

@@ -14,6 +14,30 @@ exports.getAccount_task =async function(context, event, callback,RB) {
   
     const Memory = JSON.parse(event.Memory);
 
+    Remember.userName = "";
+    Remember.userZip = "";
+    Remember.userSsnLastFour = "";
+    Remember.accountNumber =  "";
+    Remember.accountStatus =  "";
+    Remember.userTotalBalance =  "";
+    Remember.RouteBalance =  "";
+    Remember.AutomatedCCFlag =  "";	
+    Remember.AutomatedCCFee =  "";
+    Remember.AutomatedACHFlag =  "";
+    Remember.AutomatedACHFee =  "";	
+    Remember.ClientClass =  "";
+    Remember.ClientAcct =  "";
+    Remember.ClientID =  "";		
+    Remember.PhoneNum =  "";	
+    Remember.Disposition =  "";	
+    Remember.LastPayDate =  "";	
+    Remember.LastPayAmnt =  "";	
+    Remember.SeedAcct =  "";	
+    Remember.ADD1 =  "";	
+    Remember.ADD2 =  "";	
+    Remember.CITY =  "";	
+    Remember.STATE =  "";	
+
     Remember.clientData = Memory.clientData;
     Remember.CurrentTask = "getAccount_task";
 
@@ -184,8 +208,9 @@ exports.getAccount_task =async function(context, event, callback,RB) {
           };
           console.log("userData:"+ JSON.stringify(userData));
           Remember.userData = userData;
-          Remember.userName = userRespData.FullName,
-            Remember. userRespData.ZipCd,
+
+            Remember.userName = userRespData.FullName;
+            Remember.userZip = userRespData.ZipCd;
             Remember.userSsnLastFour = userRespData.SSNLastFour;
             Remember.accountNumber =  userRespData.SeedAcct;
             Remember.accountStatus =  userRespData.AccStatus === '1' ? true : false;
