@@ -58,16 +58,25 @@ exports.greeting_task =async function(context, event, callback,RB) {
           F_Letter_Namespace: (clientRespData.NameSpace.charAt(0))
           //F_Letter_Namespace:  clientRespData.NameSpace.substring((clientRespData.NameSpace.length -1),clientRespData.NameSpace.length)
         };
-        Say = true;
-        Listen = false;
-        Say = `Thank you for calling. ${clientRespData.ClientName} `;
-        Remember.user_phone_number=clientRespData.PhoneNumberTo;
-        Remember.clientData = clientData;
-        Remember.AccountFrom = "Phone";
-        Redirect = true;
+          Say = true;
+          Listen = false;
+          Say = `Thank you for calling. ${clientRespData.ClientName} `;
+          Remember.user_phone_number=clientRespData.PhoneNumberTo;
+          Remember.clientData = clientData;
+          Remember.clientName = clientRespData.ClientName;
+          Remember.mailingAddress = clientRespData.MailingAddress;
+          Remember.webPaymentAddress = clientRespData.WebPaymentAddress;
+          Remember.transferAgentNumber = clientRespData.TransferAgentNumber;
+          Remember.namespace = clientRespData.NameSpace;
+          Remember.channel = clientRespData.Channel;
+          Remember.host = clientRespData.Host;
+          Remember.TFN = clientRespData.PhoneNumber;
+          Remember.F_Letter_Namespace = (clientRespData.NameSpace.charAt(0));
+          Remember.AccountFrom = "Phone";
+          Redirect = true;
         //Redirect = "task://getAccount";
       if( bTFn_success == true  && userPhoneNumber != null)
-      {
+        {
         const reqData = {
           accountNumber: userPhoneNumber,
           namespace: Remember.clientData.namespace,
@@ -106,8 +115,31 @@ exports.greeting_task =async function(context, event, callback,RB) {
             STATE: userRespData.STATE	
 
           };
-          console.log("userData:"+ JSON.stringify(userData));
-          Remember.userData = userData;
+            console.log("userData:"+ JSON.stringify(userData));
+            Remember.userData = userData;
+            Remember.userName = userRespData.FullName,
+            Remember. userRespData.ZipCd,
+            Remember.userSsnLastFour = userRespData.SSNLastFour;
+            Remember.accountNumber =  userRespData.SeedAcct;
+            Remember.accountStatus =  userRespData.AccStatus === '1' ? true : false;
+            Remember.userTotalBalance =  userRespData.TotalBalance;
+            Remember.RouteBalance =  userRespData.RouteBalance;
+            Remember.AutomatedCCFlag =  userRespData.AutomatedCCFlag;	
+            Remember.AutomatedCCFee =  userRespData.AutomatedCCFee;
+            Remember.AutomatedACHFlag =  userRespData.AutomatedACHFlag;
+            Remember.AutomatedACHFee =  userRespData.AutomatedACHFee;	
+            Remember.ClientClass =  userRespData.ClientClass;
+            Remember.ClientAcct =  userRespData.ClientAcct;
+            Remember.ClientID =  userRespData.ClientID;		
+            Remember.PhoneNum =  userRespData.PhoneNum;	
+            Remember.Disposition =  userRespData.Dispositio;	
+            Remember.LastPayDate =  userRespData.LastPayDate;	
+            Remember.LastPayAmnt =  userRespData.LastPayAmnt;	
+            Remember.SeedAcct =  userRespData.SeedAcct;	
+            Remember.ADD1 =  userRespData.ADD1;	
+            Remember.ADD2 =  userRespData.ADD2;	
+            Remember.CITY =  userRespData.CITY;	
+            Remember.STATE =  userRespData.STATE;	
 
           if( userData.accountStatus )
           {

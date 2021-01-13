@@ -184,6 +184,29 @@ exports.getAccount_task =async function(context, event, callback,RB) {
           };
           console.log("userData:"+ JSON.stringify(userData));
           Remember.userData = userData;
+          Remember.userName = userRespData.FullName,
+            Remember. userRespData.ZipCd,
+            Remember.userSsnLastFour = userRespData.SSNLastFour;
+            Remember.accountNumber =  userRespData.SeedAcct;
+            Remember.accountStatus =  userRespData.AccStatus === '1' ? true : false;
+            Remember.userTotalBalance =  userRespData.TotalBalance;
+            Remember.RouteBalance =  userRespData.RouteBalance;
+            Remember.AutomatedCCFlag =  userRespData.AutomatedCCFlag;	
+            Remember.AutomatedCCFee =  userRespData.AutomatedCCFee;
+            Remember.AutomatedACHFlag =  userRespData.AutomatedACHFlag;
+            Remember.AutomatedACHFee =  userRespData.AutomatedACHFee;	
+            Remember.ClientClass =  userRespData.ClientClass;
+            Remember.ClientAcct =  userRespData.ClientAcct;
+            Remember.ClientID =  userRespData.ClientID;		
+            Remember.PhoneNum =  userRespData.PhoneNum;	
+            Remember.Disposition =  userRespData.Dispositio;	
+            Remember.LastPayDate =  userRespData.LastPayDate;	
+            Remember.LastPayAmnt =  userRespData.LastPayAmnt;	
+            Remember.SeedAcct =  userRespData.SeedAcct;	
+            Remember.ADD1 =  userRespData.ADD1;	
+            Remember.ADD2 =  userRespData.ADD2;	
+            Remember.CITY =  userRespData.CITY;	
+            Remember.STATE =  userRespData.STATE;	
           
           Say = false;
           Listen = false;
