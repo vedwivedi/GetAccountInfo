@@ -62,17 +62,12 @@ exports.greeting_task =async function(context, event, callback,RB) {
     
     
     let bTFn_success = false;
-    if(TFN === undefined)
-    {
+    if(TFN === undefined){
       bTFn_success = false;
         //go to agent 
         //return
     }
-    else
-    {
-     
-         //userPhoneNumber = "+14151234567";
-        //userPhoneNumber = "+17044880416";
+    else{
       Remember.TFN = TFN;
       Remember.user_phone_number = userPhoneNumber;
       userPhoneNumber = userPhoneNumber.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
@@ -113,8 +108,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
           Remember.AccountFrom = "Phone";
           Redirect = true;
         //Redirect = "task://getAccount";
-      if( bTFn_success == true  && userPhoneNumber != null)
-        {
+        if( bTFn_success == true  && userPhoneNumber != null){
         const reqData = {
           accountNumber: userPhoneNumber,
           namespace: Remember.clientData.namespace,
@@ -182,32 +176,27 @@ exports.greeting_task =async function(context, event, callback,RB) {
             Remember.STATE =  userRespData.State;	
             Remember.Status =  userRespData.Status.toString();	
 
-          if( userData.accountStatus )
-          {
+          if( userData.accountStatus ){
             console.log("accountStatus true:");
             Redirect = "task://check_name_task";
           }
-          else
-          {
+          else{
             console.log("accountStatus false:");
             Redirect = "task://getAccount";
           }
         }
-        else
-        {
+        else{
           console.log("phone number not found record :");
           Redirect = "task://getAccount";
         }
       }
-      else
-      {
+      else{
         console.log("phone number not found record :");
         Redirect = "task://getAccount";
       }
         
     }
-      else
-      {
+      else{
         Say = `Thank you for calling. There was a problem with the call. `;
         Listen = true;
         Collect = false;

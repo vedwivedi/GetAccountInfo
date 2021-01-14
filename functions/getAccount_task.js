@@ -39,19 +39,16 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     Remember.STATE =  "";	
     Remember.Status =  "";
 
-   
-
     Remember.clientData = Memory.clientData;
     Remember.CurrentTask = "getAccount_task";
 
     if(Memory.AccountFailed_Counter === undefined){
       Remember.AccountFailed_Counter = 0;
     }
-    else {
+    else{
       Remember.AccountFailed_Counter = parseInt(Memory.AccountFailed_Counter) + 1;
     }
 
-    // Getting the real caller ID
     let sMsg = "";
     if(Memory.clientData.channel == 'SMS')
         sMsg = "in the body of the SMS you received";
@@ -62,25 +59,19 @@ exports.getAccount_task =async function(context, event, callback,RB) {
 
    let squestion = `Please Say or enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located ${sMsg}. Enter the number digits after the letter ${Remember.clientData.F_Letter_Namespace}.`; 
    
-   if(Memory.AccountFailed_Counter != undefined)
-      {
+   if(Memory.AccountFailed_Counter != undefined){
         console.log("MemorygetAccount_task_counter; " +Memory.AccountFailed_Counter);
-        if(Memory.AccountFailed_Counter == 1)
-        {
+        if(Memory.AccountFailed_Counter == 1){
           squestion = "I did not understand. , " +squestion;
         }
       }
    
-
    let bPhone = false;
-   
-   if(Memory.AccountFrom == "Phone")
-   {
+   if(Memory.AccountFrom == "Phone"){
       squestion = `We could not find your account number from the phone you are calling. Please Say or enter your account number , located ${sMsg}.`; 
       bPhone = true;
-   }
+    }
   
-
     let Collect_Json =  {
       "name": "collect_Accountnumber",
       "questions": [
@@ -92,73 +83,47 @@ exports.getAccount_task =async function(context, event, callback,RB) {
               "voice_digits": {
                 "num_digits": 20,
                 "finish_on_key": "#"
-                
-              },
+                },
               }
-
-            ],
-      "on_complete": {
-      "redirect": 	 "task://getAccount"
+          ],
+        "on_complete": {
+        "redirect": 	 "task://getAccount"
               }
-    }
+      }
 
-    // console.log(userPhoneNumber);
-    
     let userPhoneNumber = Memory.user_phone_number;
     let AccountNo = null;
     Remember.user_phone_number = Memory.user_phone_number;
    
-    
-
-    //Remember.AccountFrom = "-1";
-    if(Memory.AccountFrom == "Phone")
-    {
+    if(Memory.AccountFrom == "Phone"){
       AccountNo = userPhoneNumber;
       Remember.AccountFrom = "";
-      
     }
-    else
-    {
-      if(Memory.Fallback_getAccount_task == true)
-      {
-        AccountNo = null;
-        Remember.Fallback_getAccount_task = false;
-        console.log("Fallback_getAccount_task : "+  Memory.Fallback_getAccount_task);
-        
-      }
-      else{
-          try{
-            console.log("collected_dataACCT : "+ Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer);
+    else{
+        if(Memory.Fallback_getAccount_task == true){
+          AccountNo = null;
+          Remember.Fallback_getAccount_task = false;
+          console.log("Fallback_getAccount_task : "+  Memory.Fallback_getAccount_task);
+        }
+        else{
+            try{
+              console.log("collected_dataACCT : "+ Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer);
               AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
       
             }
-          catch
-          {
-            console.log("Catch collected_dataACCT : ");
-            AccountNo = null;
-          }   
+            catch{
+                console.log("Catch collected_dataACCT : ");
+                AccountNo = null;
+              }   
+          } 
       }
-    }
-    
    
     let YesNo= null;
-    //  if(Memory.AccountFailed_Counter >=2)
-    //  {
-    //   Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
-    //   Collect = false;
-    //   Redirect = true;
-    //   Redirect = "task://agent_transfer";
-    //   RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
-    //   return;
-    //  }
+    if(Memory.check_name_task_yesno  != undefined){
+       YesNo = Memory.check_name_task_yesno;
+      }
     
-    if(Memory.check_name_task_yesno  != undefined)
-    {
-      YesNo = Memory.check_name_task_yesno;
-    }
-    
-    if(YesNo == 'No')
-    {
+    if(YesNo == 'No'){
       Remember.check_name_task_yesno = "";
       Memory.twilio = {};
       event.Memory.twilio = {};
