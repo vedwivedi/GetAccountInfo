@@ -16,20 +16,8 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
     let enterdigit = "";
     let MSG = "";
     
-    //if(Memory.ZipSSNFailed_Counter != undefined)
-        // if(Memory.ZipSSNFailed_Counter >=2)
-        // {
-        // Collect = false;
-        // Redirect = true;
-        // //Say = `We need to transfer you to an agent because of your account is not verified`;
-        // Redirect = "task://agent_transfer";
-        // RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
-        // return;
-        // }
-
     try{
       enterdigit = Memory.twilio.collected_data.collect_ziporssn.answers.ziporssn.answer;
-    
     }
     catch{
       enterdigit = null
