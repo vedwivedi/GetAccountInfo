@@ -83,6 +83,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
       Redirect = `task://agent_transfer` ;
     }
     else{
+      TFN = "8777215502"; // when go production remove this line
       Remember.TFN = TFN;
       Remember.user_phone_number = userPhoneNumber;
       userPhoneNumber = userPhoneNumber.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
