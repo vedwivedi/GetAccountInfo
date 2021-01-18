@@ -239,8 +239,8 @@ exports.getAccount_task =async function(context, event, callback,RB) {
 
           
           Remember.AccountFrom = "Manual";
-          // if( !bPhone )
-          Say = `The account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
+          if( !bPhone )
+              Say = `The account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
 
           Collect  = true;
           Remember.question ="getAccount_task";
