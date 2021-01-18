@@ -66,12 +66,8 @@ exports.greeting_task =async function(context, event, callback,RB) {
        TFN = "8777215502";
     }
 
-
-    //let userPhoneNumber = Memory.twilio.voice.From || "+13109025157";
-    //let TFN = Memory.twilio.voice.To || "8559092691"; //
     Remember.Agent = false;
     console.log("userPhoneNumber :" +userPhoneNumber);
-    //Remember.fallback = "";
     Remember.CurrentTask = "greeting";
     //let userPhoneNumber = event.UserIdentifier;
     Remember.AccountFrom = "-1";
@@ -80,8 +76,11 @@ exports.greeting_task =async function(context, event, callback,RB) {
     let bTFn_success = false;
     if(TFN === undefined){
       bTFn_success = false;
-        //go to agent 
-        //return
+      Say = `Thank you for calling. There was a problem with the call. `;
+      Listen = false;
+      Collect = false;
+      Redirect = true;
+      Redirect = `task://agent_transfer` ;
     }
     else{
       Remember.TFN = TFN;
@@ -132,7 +131,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
           callerPhoneNumber: Remember.user_phone_number,
           TFN: TFN
         };
-        
+        console.log("Remember.user_phone_number : "+Remember.user_phone_number);
         console.log("RequestData:"+ JSON.stringify(reqData));
         const { success, userRespData } = await GetInboundAccountInfoWithPhone(reqData);
         console.log("Accountsuccess:"+ success);
@@ -214,7 +213,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
     }
       else{
         Say = `Thank you for calling. There was a problem with the call. `;
-        Listen = true;
+        Listen = false;
         Collect = false;
         Redirect = true;
         Redirect = `task://agent_transfer` ;
@@ -262,8 +261,8 @@ exports.greeting_task =async function(context, event, callback,RB) {
         'NameType': 'P',  // hard coded
         'SeedFlag': '1',  // hard coded
         'Host': reqData.host, // coming from the result of TFN_LookUp
-        'PhoneNumber': reqData.TFN, // caller’s phone number
-        'PhoneNumberTo': reqData.callerPhoneNumber, // the phone number they are calling to
+        'PhoneNumber': reqData.callerPhoneNumber, // caller’s phone number
+        'PhoneNumberTo': reqData.TFN, // the phone number they are calling to
         'IVRUsed':'MainIVR'
       };
       console.log("requestObj: "+JSON.stringify(requestObj));

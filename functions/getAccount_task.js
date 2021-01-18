@@ -49,6 +49,10 @@ exports.getAccount_task =async function(context, event, callback,RB) {
       Remember.AccountFailed_Counter = parseInt(Memory.AccountFailed_Counter) + 1;
     }
 
+    let userPhoneNumber = Memory.user_phone_number;
+    let AccountNo = null;
+    Remember.user_phone_number = Memory.user_phone_number;
+
     let sMsg = "";
     if(Memory.clientData.channel == 'SMS')
         sMsg = "in the body of the SMS you received";
@@ -67,10 +71,28 @@ exports.getAccount_task =async function(context, event, callback,RB) {
   //     }
    
    let bPhone = false;
-   if(Memory.AccountFrom == "Phone"){
-      squestion = `We could not find your account number from the phone you are calling. Please Say or enter your account number , located ${sMsg}.`; 
-      bPhone = true;
-    }
+    if(Memory.AccountFrom == "Phone"){
+        squestion = `We could not find your account number from the phone you are calling. Please Say or enter your account number , located ${sMsg}.`; 
+        Remember.AccountFrom = "";
+        bPhone = true;
+      }
+    else{
+        if(Memory.Fallback_getAccount_task == true){
+          AccountNo = null;
+          Remember.Fallback_getAccount_task = false;
+          console.log("Fallback_getAccount_task : "+  Memory.Fallback_getAccount_task);
+        }
+        else{
+            try{
+              console.log("collected_dataACCT : "+ Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer);
+              AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
+            }
+            catch{
+                console.log("Catch collected_dataACCT : ");
+                AccountNo = null;
+            }   
+          } 
+      }
   
     let Collect_Json =  {
       "name": "collect_Accountnumber",
@@ -91,32 +113,30 @@ exports.getAccount_task =async function(context, event, callback,RB) {
               }
       }
 
-    let userPhoneNumber = Memory.user_phone_number;
-    let AccountNo = null;
-    Remember.user_phone_number = Memory.user_phone_number;
    
-    if(Memory.AccountFrom == "Phone"){
-      AccountNo = userPhoneNumber;
-      Remember.AccountFrom = "";
-    }
-    else{
-        if(Memory.Fallback_getAccount_task == true){
-          AccountNo = null;
-          Remember.Fallback_getAccount_task = false;
-          console.log("Fallback_getAccount_task : "+  Memory.Fallback_getAccount_task);
-        }
-        else{
-            try{
-              console.log("collected_dataACCT : "+ Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer);
-              AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
+   
+    // if(Memory.AccountFrom == "Phone"){
+    //   //AccountNo = userPhoneNumber;
+    //   Remember.AccountFrom = "";
+    // }
+    // else{
+    //     if(Memory.Fallback_getAccount_task == true){
+    //       AccountNo = null;
+    //       Remember.Fallback_getAccount_task = false;
+    //       console.log("Fallback_getAccount_task : "+  Memory.Fallback_getAccount_task);
+    //     }
+    //     else{
+    //         try{
+    //           console.log("collected_dataACCT : "+ Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer);
+    //           AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
       
-            }
-            catch{
-                console.log("Catch collected_dataACCT : ");
-                AccountNo = null;
-              }   
-          } 
-      }
+    //         }
+    //         catch{
+    //             console.log("Catch collected_dataACCT : ");
+    //             AccountNo = null;
+    //           }   
+    //       } 
+    //   }
    
     let YesNo= null;
     if(Memory.check_name_task_yesno  != undefined){
