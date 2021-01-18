@@ -59,12 +59,12 @@ exports.getAccount_task =async function(context, event, callback,RB) {
 
    let squestion = `Please Say or enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located ${sMsg}. Enter the numbers  after the letter ${Remember.clientData.F_Letter_Namespace}.`; 
    
-   if(Memory.AccountFailed_Counter != undefined){
-        console.log("MemorygetAccount_task_counter; " +Memory.AccountFailed_Counter);
-        if(Memory.AccountFailed_Counter == 1){
-          squestion = "I did not understand. , " +squestion;
-        }
-      }
+  //  if(Memory.AccountFailed_Counter != undefined){
+  //       console.log("MemorygetAccount_task_counter; " +Memory.AccountFailed_Counter);
+  //       if(Memory.AccountFailed_Counter == 1){
+  //         squestion = "I did not understand. , " +squestion;
+  //       }
+  //     }
    
    let bPhone = false;
    if(Memory.AccountFrom == "Phone"){
