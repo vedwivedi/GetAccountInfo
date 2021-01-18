@@ -124,6 +124,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
       }
     
     if(YesNo == 'No'){
+      console.log("YesNo: "+ YesNo);
       Remember.check_name_task_yesno = "";
       Memory.twilio = {};
       event.Memory.twilio = {};
@@ -140,10 +141,10 @@ exports.getAccount_task =async function(context, event, callback,RB) {
           accountNumber: AccountNo,
           namespace: Remember.clientData.namespace,
           host: Remember.clientData.host,
-          callerPhoneNumber: Remember.user_phone_number,
+          callerPhoneNumber: "+11234567890", // we need to pass bad phone number so that we lookup the account using the account number
           TFN: Memory.TFN
         };
-        
+        console.log("reqData: "+JSON.stringify(reqData));
         const { success, userRespData } = await GetInboundAccountInfo(reqData);
   
         if ( success ) {
@@ -238,10 +239,8 @@ exports.getAccount_task =async function(context, event, callback,RB) {
 
           
           Remember.AccountFrom = "Manual";
-
-          if( !bPhone )
-              Say = `The account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
-
+          // if( !bPhone )
+          Say = `The account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
 
           Collect  = true;
           Remember.question ="getAccount_task";

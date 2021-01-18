@@ -50,9 +50,25 @@ exports.greeting_task =async function(context, event, callback,RB) {
     Remember.STATE =  "";	
     Remember.Status =  "";
 
-    
-    let userPhoneNumber = Memory.twilio.voice.From; //"+13109025157";
-    let TFN = Memory.twilio.voice.To; //"8559092691"; //
+    let userPhoneNumber;
+    let TFN;
+    try{
+      userPhoneNumber = Memory.twilio.voice.From;
+    }
+    catch{
+        userPhoneNumber = "+13109025157";
+    }
+
+    try{
+       TFN = Memory.twilio.voice.To;
+    }
+    catch{
+       TFN = "8559092691";
+    }
+
+
+    //let userPhoneNumber = Memory.twilio.voice.From || "+13109025157";
+    //let TFN = Memory.twilio.voice.To || "8559092691"; //
     Remember.Agent = false;
     console.log("userPhoneNumber :" +userPhoneNumber);
     //Remember.fallback = "";
