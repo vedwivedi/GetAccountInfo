@@ -264,7 +264,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
         'Host': reqData.host, // coming from the result of TFN_LookUp
         'PhoneNumber': reqData.callerPhoneNumber, // caller’s phone number
         'PhoneNumberTo': reqData.TFN, // the phone number they are calling to
-        'IVRUsed':'MainIVR'
+        'IVRUsed':'MainAutoIVR10'
       };
       console.log("requestObj: "+JSON.stringify(requestObj));
   

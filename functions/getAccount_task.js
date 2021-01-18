@@ -137,7 +137,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
           accountNumber: AccountNo,
           namespace: Remember.clientData.namespace,
           host: Remember.clientData.host,
-          callerPhoneNumber: "+11234567890", // we need to pass bad phone number so that we lookup the account using the account number
+          callerPhoneNumber: Memory.user_phone_number, // we need to pass bad phone number so that we lookup the account using the account number
           TFN: Memory.TFN
         };
         console.log("reqData: "+JSON.stringify(reqData));
@@ -288,7 +288,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
         'Host': reqData.host, // coming from the result of TFN_LookUp
         'PhoneNumber': reqData.callerPhoneNumber, // caller’s phone number
         'PhoneNumberTo': reqData.TFN, // the phone number they are calling to
-        'IVRUsed':'MainIVR'
+        'IVRUsed':'MainAutoIVR10'
       };
   
       const responseObj = await axios.post(`${API_ENDPOINT}/GetInboundAccountInfo`, requestObj);
