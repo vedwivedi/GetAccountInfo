@@ -26,9 +26,14 @@ exports.check_name_task =async function(context, event, callback,RB) {
 
     if(Memory.AccountFrom == "Phone")
        sQues = `if your name is, ${name_check}  and  your account number is <say-as interpret-as='digits'>${Accountnumber}</say-as>,,Please Press  1 or Say Yes to confirm your name, , press 2 or Say No,, if that is not your name  `;
-    else
-       sQues = `if your name is, ${name_check} ,,Please Press  1 or Say Yes to confirm your name, , press 2 or Say No,, if that is not your name `;
-
+    else{
+      if(Memory.check_name_task_cnt >= 2)
+          sQues = `I did not understand. If your name is, ${name_check} ,,Please Press  1 or Say Yes to confirm your name, , press 2 or Say No,, if that is not your name `;
+      else
+          sQues = `if your name is, ${name_check} ,,Please Press  1 or Say Yes to confirm your name, , press 2 or Say No,, if that is not your name `;
+       
+    }
+      
     Remember.AccountFrom = "";
     Say = `${sQues}`;
     Listen =  {
