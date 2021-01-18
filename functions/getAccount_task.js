@@ -114,30 +114,6 @@ exports.getAccount_task =async function(context, event, callback,RB) {
       }
 
    
-   
-    // if(Memory.AccountFrom == "Phone"){
-    //   //AccountNo = userPhoneNumber;
-    //   Remember.AccountFrom = "";
-    // }
-    // else{
-    //     if(Memory.Fallback_getAccount_task == true){
-    //       AccountNo = null;
-    //       Remember.Fallback_getAccount_task = false;
-    //       console.log("Fallback_getAccount_task : "+  Memory.Fallback_getAccount_task);
-    //     }
-    //     else{
-    //         try{
-    //           console.log("collected_dataACCT : "+ Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer);
-    //           AccountNo = Memory.twilio.collected_data.collect_Accountnumber.answers.NumberOfacct.answer;
-      
-    //         }
-    //         catch{
-    //             console.log("Catch collected_dataACCT : ");
-    //             AccountNo = null;
-    //           }   
-    //       } 
-    //   }
-   
     let YesNo= null;
     if(Memory.check_name_task_yesno  != undefined){
        YesNo = Memory.check_name_task_yesno;
