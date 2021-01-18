@@ -57,7 +57,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     else    
         sMsg = "in the upper right hand corner of the letter you received";     
 
-   let squestion = `Please Say or enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located ${sMsg}. Enter the number digits after the letter ${Remember.clientData.F_Letter_Namespace}.`; 
+   let squestion = `Please Say or enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located ${sMsg}. Enter the numbers  after the letter ${Remember.clientData.F_Letter_Namespace}.`; 
    
    if(Memory.AccountFailed_Counter != undefined){
         console.log("MemorygetAccount_task_counter; " +Memory.AccountFailed_Counter);
