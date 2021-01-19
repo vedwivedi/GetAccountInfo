@@ -282,7 +282,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
       const requestObj = {
         'AccountNo': reqData.accountNumber,  // A/C number the caller entered. Or the caller’s phone number
         'NameSpace':reqData.namespace,  // coming from the result of TFN_LookUp
-        'AccountType': 'F', // hard coded
+        'AccountType': 'F', // hard coded for facs account
         'NameType': 'P',  // hard coded
         'SeedFlag': '1',  // hard coded
         'Host': reqData.host, // coming from the result of TFN_LookUp
@@ -291,7 +291,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
         'IVRUsed':'MainAutoIVR10'
       };
   
-      const responseObj = await axios.post(`${API_ENDPOINT}/GetInboundAccountInfo`, requestObj);
+      const responseObj = await axios.post(`${API_ENDPOINT}/GetInboundAccountInfoAuto`, requestObj);
       userRespData = responseObj.data;
   
       success = userRespData.Returns === '1' ? true : false;

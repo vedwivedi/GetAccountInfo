@@ -258,7 +258,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
       const requestObj = {
         'AccountNo': reqData.callerPhoneNumber,  // A/C number the caller entered. Or the caller’s phone number
         'NameSpace':reqData.namespace,  // coming from the result of TFN_LookUp
-        'AccountType': 'P', // hard coded 
+        'AccountType': 'P', // hard coded  for phone number as accpunaccount number
         'NameType': 'P',  // hard coded
         'SeedFlag': '1',  // hard coded
         'Host': reqData.host, // coming from the result of TFN_LookUp
@@ -268,7 +268,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
       };
       console.log("requestObj: "+JSON.stringify(requestObj));
   
-      const responseObj = await axios.post(`${API_ENDPOINT}/GetInboundAccountInfo`, requestObj);
+      const responseObj = await axios.post(`${API_ENDPOINT}/GetInboundAccountInfoAuto`, requestObj);
       userRespData = responseObj.data;
   
       success = userRespData.Returns === '1' ? true : false;
