@@ -239,7 +239,7 @@ exports.greeting_task =async function(context, event, callback,RB) {
   
       const responseObj = await axios.post(`${API_ENDPOINT}/TFN_LookUp`, requestObj);
       clientRespData = responseObj.data;
-      success = clientRespData.status === 'ok' ? true : false;
+      success = clientRespData.Returns === '1' ? true : false;
       
     } catch ( error ) {
       console.error( error.response );
