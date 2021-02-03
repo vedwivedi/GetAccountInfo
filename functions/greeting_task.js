@@ -202,7 +202,8 @@ exports.greeting_task =async function(context, event, callback,RB) {
           }
         }
         else{
-          console.log("phone number not found record :");
+          console.log("phone number :"+Remember.user_phone_number + " Status : "+ userRespData.Status.toString());
+          Remember.Status_PhoneNotFound =  userRespData.Status.toString();	
           Redirect = "task://getAccount";
         }
       }
