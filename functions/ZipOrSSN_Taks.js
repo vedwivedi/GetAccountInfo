@@ -15,7 +15,13 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
     let SSNCode = Memory.userData.userSsnLastFour;
     let enterdigit = "";
     let MSG = "";
+    let YesNo= null;
+    if(Memory.check_name_task_yesno  != undefined){
+       YesNo = Memory.check_name_task_yesno;
+      }
     
+    if(YesNo === 'Yes'){
+   
     try{
       enterdigit = Memory.twilio.collected_data.collect_ziporssn.answers.ziporssn.answer;
     }
@@ -100,7 +106,12 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
             
         
       }
-    }      
+    }
+  }
+  else{
+    Remember.question = "check_name_task";
+    Redirect ="task://fallback";
+  }      
 
       
 
