@@ -14,7 +14,9 @@ exports.handler = async (context, event, callback) => {
 
   const { CurrentTask } = event;
   const { CurrentTaskConfidence } = event;
+  let CurrentConfidencevalue = Number(CurrentTaskConfidence);
   console.log("CurrentTask : "+ CurrentTask +" ,Confidence: " + CurrentTaskConfidence + '\n');
+  if (CurrentConfidencevalue === 1 || CurrentConfidencevalue === 0) {
   // calling task handlers
   switch (CurrentTask) {
     case 'greeting':
@@ -54,4 +56,17 @@ exports.handler = async (context, event, callback) => {
      await FallbackTaskHandler.fallback_task(context, event, callback,responseBuilder.RB);
      break;
   }
+}
+else
+{
+  console.log("else fallback");
+  await FallbackTaskHandler.fallback_task(
+    context,
+    event,
+    callback,
+    responseBuilder.RB
+  );
+
+  //return;
+}
 };

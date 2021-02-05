@@ -40,8 +40,10 @@ exports.fallback_task =async function(context, event, callback,RB) {
   
       if(Memory.check_name_task_counter >= 2) 
         Redirect ="task://agent_transfer";  
-      else
+      else{
+        Say = "I did not understand.";
         Redirect ="task://check_name_task";
+      }
     break;  
 
     case 'ZipOrSSN_Task':
@@ -52,8 +54,10 @@ exports.fallback_task =async function(context, event, callback,RB) {
   
       if(Memory.ZipOrSSN_Task_counter >= 1) 
         Redirect ="task://agent_transfer"; 
-      else
+      else{
+        Say = "I did not understand.";
         Redirect ="task://ZipOrSSN_Taks";
+      }
       break;  
   
    default:
