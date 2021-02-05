@@ -80,8 +80,6 @@ exports.yes_no_task = async function(context, event, callback, RB)  {
       if(x.includes('not')) sYesNo='No';
       if(x.includes('not my')) sYesNo='No';
       if(x.includes('wrong')) sYesNo='No';
-      if(x.includes('not correct')) sYesNo='Yes';
-      if(x.includes('It is not correct')) sYesNo='Yes';
       if(x.includes('It is wrong')) sYesNo='No';
       if(x.includes('noway')) sYesNo='No';
       if(x.includes('nah')) sYesNo='No';
@@ -103,8 +101,7 @@ exports.yes_no_task = async function(context, event, callback, RB)  {
       if(x.includes('yup')) sYesNo='Yes';
       if(x.includes('okay')) sYesNo='Yes';
       if(x.includes('It is true')) sYesNo='Yes';
-      if(x.includes('That is my')) sYesNo='Yes';
-      if(x.includes("That's  my")) sYesNo='Yes';
+     
   
       
       
