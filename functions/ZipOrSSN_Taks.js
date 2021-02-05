@@ -66,6 +66,13 @@ exports.ZipOrSSN_Task =async function(context, event, callback,RB) {
         Say = `Thank you for validating your account with Zip Code.`; 
         Redirect ="task://set_MM";
       }
+      else if(enterdigit == Zipcode.substring(0,5)) // if we have zip+4 in FACS
+      {
+        Collect = false;
+        Redirect = true;
+        Say = `Thank you for validating your account with Zip Code.`; 
+        Redirect ="task://set_MM";
+      }
       else
       {
          if(Memory.ZipSSNFailed_Counter >=2)
