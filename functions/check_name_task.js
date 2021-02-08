@@ -47,7 +47,11 @@ exports.check_name_task =async function(context, event, callback,RB) {
           1: "task://ZipOrSSN_Taks",
           2: "task://check_name_Yes_No"
         }
-      }
+      },
+      "tasks": [
+        "yes_no",
+        "agent_transfer"
+      ]
     }
     
     
