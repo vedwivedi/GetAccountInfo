@@ -54,15 +54,14 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     Remember.user_phone_number = Memory.user_phone_number;
 
     let sMsg = "";
-    if(Memory.clientData.channel == 'SMS')
-        sMsg = "in the body of the SMS you received";
-    else if(Memory.clientData.channel == 'SendGrid Email')
-        sMsg = "in the upper right hand corner of the Email you received";
-    else    
-        sMsg = "in the upper right hand corner of the letter you received";     
+      if(Memory.clientData.channel == 'SMS')
+          sMsg = "in the body of the SMS you received";
+      else if(Memory.clientData.channel == 'SendGrid Email')
+          sMsg = "in the upper right hand corner of the Email you received";
+      else    
+          sMsg = "in the upper right hand corner of the letter you received";     
 
    let squestion = `Please Say or enter your account number starting with ${Remember.clientData.F_Letter_Namespace}, located ${sMsg}. Enter the numbers  after the letter ${Remember.clientData.F_Letter_Namespace}.`; 
-
    let bPhone = false;
     if(Memory.AccountFrom == "Phone"){
         squestion = `We could not find your account number from the phone you are calling. Please Say or enter your account number , located ${sMsg}.`; 
@@ -85,14 +84,13 @@ exports.getAccount_task =async function(context, event, callback,RB) {
                 AccountNo = null;
             }   
           } 
-      }
+        }
   
     let Collect_Json =  {
       "name": "collect_Accountnumber",
       "questions": [
               {
               "question": `${squestion}`,
-              // "prefill": "NumberOfacct",
               "name": "NumberOfacct",
               "type": "Twilio.NUMBER_SEQUENCE",
               "voice_digits": {
@@ -125,7 +123,7 @@ exports.getAccount_task =async function(context, event, callback,RB) {
     console.log("AccountNo:" +AccountNo);
    
     if ( AccountNo ) {
-      console.log("ifAccountNo:"+ AccountNo);
+        console.log("ifAccountNo:"+ AccountNo);
         const reqData = {
           accountNumber: AccountNo,
           namespace: Remember.clientData.namespace,
@@ -163,11 +161,10 @@ exports.getAccount_task =async function(context, event, callback,RB) {
             CITY: userRespData.City,	
             STATE: userRespData.State,
             Status: userRespData.Status
-
           };
-          console.log("userData:"+ JSON.stringify(userData));
-          Remember.userData = userData;
-
+            // filling the  getaccountinfo response in remember 
+            console.log("userData:"+ JSON.stringify(userData));
+            Remember.userData = userData;
             Remember.FullName = userRespData.FullName;
             Remember.ZipCd = userRespData.ZipCd;
             Remember.SSNLastFour = userRespData.SSNLastFour;
@@ -193,25 +190,25 @@ exports.getAccount_task =async function(context, event, callback,RB) {
             Remember.STATE =  userRespData.State;	
             Remember.Status =  userRespData.Status;
           
-          Say = false;
-          Listen = false;
-          Redirect = true;
-          Remember.AccountFailed_Counter = 0;
-          if( userData.accountStatus )
-          {
-            console.log("accountStatus true:");
-              Redirect = "task://check_name_task";
-          }
-          else
-          {
-            console.log("accountStatus false:");
-            Collect = false;
+            Say = false;
+            Listen = false;
             Redirect = true;
-            Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> is not active.`;
-            Redirect = "task://agent_transfer";
-          }
+            Remember.AccountFailed_Counter = 0;
+            if( userData.accountStatus )
+            {
+              console.log("accountStatus true:");
+                Redirect = "task://check_name_task";
+            }
+            else // if account not active
+            {
+              console.log("accountStatus false:");
+              Collect = false;
+              Redirect = true;
+              Say = `We need to transfer you to an agent for account number, <say-as interpret-as='digits'>${AccountNo}</say-as> is not active.`;
+              Redirect = "task://agent_transfer";
+            }
         }
-        else
+        else // if api not holding success result
         {
           console.log("is account is wrong : "+Memory.AccountFailed_Counter);
           if(Memory.AccountFailed_Counter >=2)
@@ -226,7 +223,6 @@ exports.getAccount_task =async function(context, event, callback,RB) {
             return;
           }
 
-          
           Remember.AccountFrom = "Manual";
           if( !bPhone )
               Say = `The account number, <say-as interpret-as='digits'>${AccountNo}</say-as> you entered is not correct.`;
@@ -234,32 +230,14 @@ exports.getAccount_task =async function(context, event, callback,RB) {
           Collect  = true;
           Remember.question ="getAccount_task";
           Collect = Collect_Json;
-
         }
-          
      }
+     // account is null because user did not gave any input.
     else{
         console.log("is account is null : "+Memory.AccountFailed_Counter);
-        // if(Memory.AccountFailed_Counter >=2)
-        // {
-        //   console.log("AccountFailed_Counter where account is null");
-        //     Say = false;
-        //     Listen = false;
-        //     Collect = false;
-        //     Redirect = true;
-        //     Redirect = "task://agent_transfer";
-        //     RB(Say, Listen, Remember, Collect, Tasks, Redirect, Handoff, callback);
-        //     return;
-        // }
-        // else
-        // {
-        
           Collect  = true;
           Remember.question ="getAccount_task";
           Collect = Collect_Json;
-        //}
-
-        
       }
 
       console.log("Say: "+Say +"Listen: "+ Listen +"Remember: "+ Remember+ "Collect: "+Collect+"Tasks: " +Tasks+ "Redirect: "+Redirect+ "Handoff: "+ Handoff);
