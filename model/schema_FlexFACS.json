@@ -48,7 +48,7 @@
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-3767-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2515-dev.twil.io/index"
                     }
                 ]
             },
@@ -60,7 +60,7 @@
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-3767-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2515-dev.twil.io/index"
                     }
                 ]
             },
@@ -174,7 +174,7 @@
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-3767-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2515-dev.twil.io/index"
                     },
                     { "listen" : true }
                 ]
@@ -199,7 +199,7 @@
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-3767-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2515-dev.twil.io/index"
                     },
                     { "listen" : true }
                 ]
@@ -278,7 +278,7 @@
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-3767-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2515-dev.twil.io/index"
                     },
                     { "listen" : true }
                 ]
@@ -291,7 +291,7 @@
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-3767-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2515-dev.twil.io/index"
                     }
                 ]
             },
@@ -380,7 +380,7 @@
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-3767-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2515-dev.twil.io/index"
                     },
                     { "listen" : true }
                 ]
@@ -398,7 +398,7 @@
             "actions" : {
                 "actions" : [
                     {
-                        "redirect" : "https://getaccountinfo-3767-dev.twil.io/index"
+                        "redirect" : "https://getaccountinfo-2515-dev.twil.io/index"
                     },
                     { "listen" : true }
                 ]
